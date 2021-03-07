@@ -19,6 +19,7 @@
 #define KEY_W 13
 #define KEY_LEFT 123
 #define KEY_RIGHT 124
+#define KEY_ESC 53
 #define PI 3.14159265359
 
 typedef struct  	s_vars {

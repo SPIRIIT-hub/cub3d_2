@@ -67,6 +67,10 @@ void	ft_verLine(int x, int drawstart, int drawend, int color, t_vars *vars)
 
 int             key_hook(int keycode, t_vars *vars)
 {
+	if (keycode == KEY_ESC)
+	{
+		exit(0);
+	}
 	if (keycode == KEY_W)
     {
       if(worldMap[(int)(vars->posX + vars->dirX * moveSpeed)][(int)(vars->posY)] == 0) vars->posX += vars->dirX * moveSpeed;
