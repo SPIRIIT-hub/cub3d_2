@@ -65,29 +65,20 @@ void            my_mlx_pixel_put(t_rc *data, int x, int y, int color)
 
 void	ft_verLine(int x, int drawstart, int drawend, int color, t_rc *rc)
 {
-	double imgx = 0;
-	double ttt;
-	ttt = fabs(rc->sideDistY - rc->sideDistX);
-	printf("ttt : %f\n", ttt - (int)ttt);
-	int imgy = rc->txtn->img_width * (ttt - (int)ttt);
-	// printf("(rc->sideDistY - (int)rc->sideDistY) : %d\n", imgy);
-	double step = rc->txtn->img_height / (drawend - drawstart);
-	int i = 0;
-	int j = (drawend - drawstart) / rc->txtn->img_height;
-	while (drawstart < drawend)
+	int imgx;
+	double imgy;
+	int len = drawend - drawstart;
+	int wle = 0;
+
+	double param = rc->sideDistX > rc->sideDistY ? rc->sideDistY : rc->sideDistY;
+
+	imgx = rc->txtn->img_width * (param - (int)param);
+	while (wle < len)
 	{
-		my_mlx_pixel_put(rc, x, drawstart, *(unsigned int*)get_pixel(rc->txtn, (int)imgx, imgy));
+		imgy = (double)wle / (double)len;
+		my_mlx_pixel_put(rc, x, drawstart, *(unsigned int*)get_pixel(rc->txtn, imgx, imgy * rc->txtn->img_height));
+		wle++;
 		drawstart++;
-		if (i == j)
-		{
-			imgx += step;
-			if (imgx >= rc->txtn->img_height)
-				imgx = 0;
-			i = 0;
-		}
-		i++;
-		
-		// printf("imgx : %f\n", imgx);
 	}
 }
 
