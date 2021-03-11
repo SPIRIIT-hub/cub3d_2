@@ -22,7 +22,18 @@
 #define KEY_ESC 53
 #define PI 3.14159265359
 
-typedef struct  	s_vars {
+typedef struct  	s_img {
+		int    	bits_per_pixel;
+		int    	line_length;
+		int     endian;
+		char    *addr;
+		void    *img;
+    	char    *relative_path;
+    	int     img_width;
+		int     img_height;
+}               	t_img;
+
+typedef struct  	s_rc {
         void    	*mlx;
         void    	*win;
 		void    	*img;
@@ -39,10 +50,13 @@ typedef struct  	s_vars {
         double      rayDirY;
         double      planeY;
         double      cameraX;
-}               	t_vars;
+        double      sideDistX;
+		double      sideDistY;
+        t_img       *txtn;
+}               	t_rc;
 
-void            my_mlx_pixel_put(t_vars *data, int x, int y, int color);
-int             key_hook(int keycode, t_vars *vars);
-void	        ft_Raycaster(t_vars *vars);
+void            my_mlx_pixel_put(t_rc *data, int x, int y, int color);
+int             key_hook(int keycode, t_rc *vars);
+void	        ft_Raycaster(t_rc *vars);
 
 #endif
