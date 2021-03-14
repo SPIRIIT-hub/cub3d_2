@@ -52,6 +52,12 @@ typedef struct  	s_rc {
         double      cameraX;
         double      sideDistX;
 		double      sideDistY;
+		double		deltaDistX;
+		double		deltaDistY;
+		double		VX;
+		double		VY;
+		double		wallX;
+		int			side;
         t_img       *txtn;
 }               	t_rc;
 

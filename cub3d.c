@@ -66,21 +66,64 @@ void            my_mlx_pixel_put(t_rc *data, int x, int y, int color)
 void	ft_verLine(int x, int drawstart, int drawend, int color, t_rc *rc)
 {
 	int imgx;
-	double imgy;
+	int imgy;
 	int len = drawend - drawstart;
 	int wle = 0;
 
-	double param = rc->sideDistX > rc->sideDistY ? rc->sideDistY : rc->sideDistY;
-
-	imgx = rc->txtn->img_width * (param - (int)param);
+	imgx = (int)(rc->txtn->img_width * (rc->wallX - (int)rc->wallX));
+	imgy = (int)(((rc->txtn->img_height - 1) / (double)len) * wle);
 	while (wle < len)
 	{
-		imgy = (double)wle / (double)len;
-		my_mlx_pixel_put(rc, x, drawstart, *(unsigned int*)get_pixel(rc->txtn, imgx, imgy * rc->txtn->img_height));
+		imgy = (int)(((rc->txtn->img_height - 1) / (double)len) * wle);
+		// printf("rc->wallX : %f\n", rc->wallX);
+		my_mlx_pixel_put(rc, x, drawstart, *(unsigned int*)get_pixel(rc->txtn, imgx, imgy));
 		wle++;
 		drawstart++;
 	}
 }
+
+// void	ft_verLine(int x, int drawstart, int drawend, int color, t_rc *rc)
+// {
+// 	int imgx;
+// 	double imgy;
+// 	int len = drawend - drawstart;
+// 	int wle = 0;
+
+// 	double param = rc->sideDistX > rc->sideDistY ? rc->sideDistX : rc->sideDistY;
+
+// 	printf("param : %d %f\n", x, param);
+// 	imgx = rc->txtn->img_width * (param - (int)param);
+// 	while (wle < len)
+// 	{
+// 		imgy = (double)wle / (double)len;
+// 		my_mlx_pixel_put(rc, x, drawstart, *(unsigned int*)get_pixel(rc->txtn, imgx, imgy * rc->txtn->img_height));
+// 		wle++;
+// 		drawstart++;
+// 	}
+// }
+
+// void		ft_verLine(int x, int drawstart, int drawend, int color, t_rc *rc)
+// {
+// 	int imgx;
+// 	double imgy;
+// 	int len = drawend - drawstart;
+// 	int wle = 0;
+	
+// 	double param = rc->sideDistX > rc->sideDistY ? rc->sideDistX : rc->sideDistY;
+	
+// 	imgx = rc->txtn->img_width * (param - (int)param);
+// 	//printf("len = %d\n", len);
+// 	//printf("imgx = %d\n", imgx);
+// 	// printf("imgy = %f\n", imgy);
+// 	while (wle < len)
+// 	{
+// 		imgy = (double)wle / (double)len;
+// 		my_mlx_pixel_put(rc, x, drawstart, *(unsigned int*)get_pixel(rc->txtn, imgx, imgy * rc->txtn->img_height));
+// 		// my_mlx_pixel_put(rc->mlx, rc->win, x, drawstart, *(unsigned int*)get_pixel(rc->txtn, imgx, imgy * rc->txtn->img_height));
+// 		wle++;
+// 		drawstart++;
+// 	}
+// }
 
 int             key_hook(int keycode, t_rc *rc)
 {
@@ -152,8 +195,8 @@ void	ft_Raycaster(t_rc *rc)
 		// double sideDistY;
 
 		//length of ray from one x or y-side to next x or y-side
-		double deltaDistX = fabs(1 / rayDirX);
-		double deltaDistY = fabs(1 / rayDirY);
+		rc->deltaDistX = fabs(1 / rayDirX);
+		rc->deltaDistY = fabs(1 / rayDirY);
 		double perpWallDist;
 
 		//what direction to step in x or y-direction (either +1 or -1)
@@ -161,52 +204,52 @@ void	ft_Raycaster(t_rc *rc)
 		int stepY;
 
 		int hit = 0; //was there a wall hit?
-		int side; //was a NS or a EW wall hit?
+		// int side; //was a NS or a EW wall hit?
 
 		// Alternative code for deltaDist in case division through zero is not supported
-		deltaDistX = (rayDirY == 0) ? 0 : ((rayDirX == 0) ? 1 : fabs(1 / rayDirX));
-		deltaDistY = (rayDirX == 0) ? 0 : ((rayDirY == 0) ? 1 : fabs(1 / rayDirY));
+		rc->deltaDistX = (rayDirY == 0) ? 0 : ((rayDirX == 0) ? 1 : fabs(1 / rayDirX));
+		rc->deltaDistY = (rayDirX == 0) ? 0 : ((rayDirY == 0) ? 1 : fabs(1 / rayDirY));
 
 		//calculate step and initial sideDist
 		if (rayDirX < 0)
 		{
 			stepX = -1;
-			rc->sideDistX = (rc->posX - mapX) * deltaDistX;
+			rc->sideDistX = (rc->posX - mapX) * rc->deltaDistX;
 		}
 		else
 		{
 			stepX = 1;
-			rc->sideDistX = (mapX + 1.0 - rc->posX) * deltaDistX;
+			rc->sideDistX = (mapX + 1.0 - rc->posX) * rc->deltaDistX;
 		}
 		if (rayDirY < 0)
 		{
 			stepY = -1;
-			rc->sideDistY = (rc->posY - mapY) * deltaDistY;
+			rc->sideDistY = (rc->posY - mapY) * rc->deltaDistY;
 		}
 		else
 		{
 			stepY = 1;
-			rc->sideDistY = (mapY + 1.0 - rc->posY) * deltaDistY;
+			rc->sideDistY = (mapY + 1.0 - rc->posY) * rc->deltaDistY;
 		}
 		while (hit == 0)
 		{
 			//jump to next map square, OR in x-direction, OR in y-direction
 			if (rc->sideDistX < rc->sideDistY)
 			{
-			rc->sideDistX += deltaDistX;
+			rc->sideDistX += rc->deltaDistX;
 			mapX += stepX;
-			side = 0;
+			rc->side = 0;
 			}
 			else
 			{
-			rc->sideDistY += deltaDistY;
+			rc->sideDistY += rc->deltaDistY;
 			mapY += stepY;
-			side = 1;
+			rc->side = 1;
 			}
 			//Check if ray has hit a wall
 			if (worldMap[mapX][mapY] > 0) hit = 1;
 		}
-		if (side == 0) perpWallDist = (mapX - rc->posX + (1 - stepX) / 2) / rayDirX;
+		if (rc->side == 0) perpWallDist = (mapX - rc->posX + (1 - stepX) / 2) / rayDirX;
      	else           perpWallDist = (mapY - rc->posY + (1 - stepY) / 2) / rayDirY;
 		int lineHeight = (int)(screenHeight / perpWallDist);
 
@@ -220,17 +263,27 @@ void	ft_Raycaster(t_rc *rc)
 		// printf("worldMap[mapX][mapY] : %d\n", worldMap[mapX][mapY]);
 		switch(worldMap[mapX][mapY])
 		{
-			case 1:  color = 0xFF2D00;  break; //red
-			case 2:  color = 0x00911F;  break; //green
-			case 3:  color = 0x00B9FF;   break; //blue
-			case 4:  color = 0xFFFFFF;  break; //white
+			case 1:  color = 0xFF2D00; break; //red
+			case 2:  color = 0x00911F; break; //green
+			case 3:  color = 0x00B9FF; break; //blue
+			case 4:  color = 0xFFFFFF; break; //white
 			default: color = 0xFBFF00; break; //yellow
 		}
 
 		//give x and y sides different brightness
-		if (side == 1) {color = color / 2;}
+		if (rc->side == 1) {color = color / 2;}
 
+
+		rc->VX = (double)rc->posX;
+		rc->VY = (double)rc->posY;
+
+		// printf("here %f %f\n", rayDirY, rayDirX);
+		// printf("ici : %f %f\n", deltaDistX, deltaDistY);
 		//draw the pixels of the stripe as a vertical line
+		if (rc->side == 0)
+			rc->wallX = rc->posY + perpWallDist * rayDirY;
+		else
+			rc->wallX = rc->posX + perpWallDist * rayDirX;
 		ft_verLine(x, drawStart, drawEnd, color, rc);
 		// printf("here : %f %f\n", rc->sideDistX, rc->sideDistY);
 	}
