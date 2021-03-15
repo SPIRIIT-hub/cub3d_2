@@ -22,6 +22,12 @@
 #define KEY_ESC 53
 #define PI 3.14159265359
 
+typedef struct		s_list
+{
+      void			*content;
+      struct s_list	*next;
+}					t_list;
+
 typedef struct  	s_img {
 		int    	bits_per_pixel;
 		int    	line_length;
@@ -54,15 +60,19 @@ typedef struct  	s_rc {
 		double      sideDistY;
 		double		deltaDistX;
 		double		deltaDistY;
-		double		VX;
-		double		VY;
 		double		wallX;
 		int			side;
-        t_img       *txtn;
+		int			sd;
+        t_img       **txtn;
 }               	t_rc;
 
 void            my_mlx_pixel_put(t_rc *data, int x, int y, int color);
 int             key_hook(int keycode, t_rc *vars);
 void	        ft_Raycaster(t_rc *vars);
+int				wrfree(void *ptr);
+void			*wrmalloc(unsigned long size);
+void			wrdestroy(void);
+void			ft_lstadd_back(t_list **alst, t_list *new);
+
 
 #endif

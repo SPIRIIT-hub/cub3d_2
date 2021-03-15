@@ -1,6 +1,6 @@
 NAME = cub3D
 
-SRC =	cub3d.c
+SRC =	cub3d.c ft_wrmalloc.c
 
 OBJ = ${SRC:.c=.o}
 

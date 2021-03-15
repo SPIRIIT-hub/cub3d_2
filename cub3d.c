@@ -14,7 +14,7 @@ int worldMap[mapWidth][mapHeight]=
   {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
   {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
   {1,0,0,0,0,0,2,2,2,2,2,0,0,0,0,3,0,3,0,3,0,0,0,1},
-  {1,0,0,0,0,0,2,0,0,0,2,0,0,0,0,0,0,0,0,0,0,0,0,1},
+  {1,0,0,6,0,0,2,0,0,0,2,0,0,0,0,0,0,0,0,0,0,0,0,1},
   {1,0,0,0,0,0,2,0,0,0,2,0,0,0,0,3,0,0,0,3,0,0,0,1},
   {1,0,0,0,0,0,2,0,0,0,2,0,0,0,0,0,0,0,0,0,0,0,0,1},
   {1,0,0,0,0,0,2,2,0,2,2,0,0,0,0,3,0,3,0,3,0,0,0,1},
@@ -70,60 +70,36 @@ void	ft_verLine(int x, int drawstart, int drawend, int color, t_rc *rc)
 	int len = drawend - drawstart;
 	int wle = 0;
 
-	imgx = (int)(rc->txtn->img_width * (rc->wallX - (int)rc->wallX));
-	imgy = (int)(((rc->txtn->img_height - 1) / (double)len) * wle);
+	imgx = (int)(rc->txtn[rc->side]->img_width * (rc->wallX - (int)rc->wallX));
+	imgy = (int)(((rc->txtn[rc->side]->img_height - 1) / (double)len) * wle);
 	while (wle < len)
 	{
-		imgy = (int)(((rc->txtn->img_height - 1) / (double)len) * wle);
+		imgy = (int)(((rc->txtn[rc->side]->img_height - 1) / (double)len) * wle);
 		// printf("rc->wallX : %f\n", rc->wallX);
-		my_mlx_pixel_put(rc, x, drawstart, *(unsigned int*)get_pixel(rc->txtn, imgx, imgy));
+		my_mlx_pixel_put(rc, x, drawstart, *(unsigned int*)get_pixel(rc->txtn[rc->sd], imgx, imgy));
 		wle++;
 		drawstart++;
 	}
 }
 
-// void	ft_verLine(int x, int drawstart, int drawend, int color, t_rc *rc)
-// {
-// 	int imgx;
-// 	double imgy;
-// 	int len = drawend - drawstart;
-// 	int wle = 0;
+void	ft_spriteLine(int x, int drawstart, int drawend, int color, t_rc *rc)
+{
+	int imgx;
+	int imgy;
+	int len = drawend - drawstart;
+	int wle = 0;
 
-// 	double param = rc->sideDistX > rc->sideDistY ? rc->sideDistX : rc->sideDistY;
-
-// 	printf("param : %d %f\n", x, param);
-// 	imgx = rc->txtn->img_width * (param - (int)param);
-// 	while (wle < len)
-// 	{
-// 		imgy = (double)wle / (double)len;
-// 		my_mlx_pixel_put(rc, x, drawstart, *(unsigned int*)get_pixel(rc->txtn, imgx, imgy * rc->txtn->img_height));
-// 		wle++;
-// 		drawstart++;
-// 	}
-// }
-
-// void		ft_verLine(int x, int drawstart, int drawend, int color, t_rc *rc)
-// {
-// 	int imgx;
-// 	double imgy;
-// 	int len = drawend - drawstart;
-// 	int wle = 0;
-	
-// 	double param = rc->sideDistX > rc->sideDistY ? rc->sideDistX : rc->sideDistY;
-	
-// 	imgx = rc->txtn->img_width * (param - (int)param);
-// 	//printf("len = %d\n", len);
-// 	//printf("imgx = %d\n", imgx);
-// 	// printf("imgy = %f\n", imgy);
-// 	while (wle < len)
-// 	{
-// 		imgy = (double)wle / (double)len;
-// 		my_mlx_pixel_put(rc, x, drawstart, *(unsigned int*)get_pixel(rc->txtn, imgx, imgy * rc->txtn->img_height));
-// 		// my_mlx_pixel_put(rc->mlx, rc->win, x, drawstart, *(unsigned int*)get_pixel(rc->txtn, imgx, imgy * rc->txtn->img_height));
-// 		wle++;
-// 		drawstart++;
-// 	}
-// }
+	imgx = (int)(rc->txtn[4]->img_width * (rc->wallX - (int)rc->wallX));
+	imgy = (int)(((rc->txtn[4]->img_height - 1) / (double)len) * wle);
+	while (wle < len)
+	{
+		imgy = (int)(((rc->txtn[4]->img_height - 1) / (double)len) * wle);
+		// printf("rc->wallX : %f\n", rc->wallX);
+		my_mlx_pixel_put(rc, x, drawstart, *(unsigned int*)get_pixel(rc->txtn[4], imgx, imgy));
+		wle++;
+		drawstart++;
+	}
+}
 
 int             key_hook(int keycode, t_rc *rc)
 {
@@ -183,20 +159,21 @@ void	ft_Raycaster(t_rc *rc)
 	for(int x = 0; x < screenWidth; x++)
     {
 		//calculate ray position and direction
-		double cameraX = 2 * x / (double)(screenWidth) - 1; //x-coordinate in camera space
-		double rayDirX = rc->dirX + rc->planeX * cameraX;
-		double rayDirY = rc->dirY + rc->planeY * cameraX;
+		rc->cameraX = 2 * x / (double)(screenWidth) - 1; //x-coordinate in camera space
+		rc->rayDirX = rc->dirX + rc->planeX * rc->cameraX;
+		rc->rayDirY = rc->dirY + rc->planeY * rc->cameraX;
 		//which box of the map we're in
 		int mapX = (int)(rc->posX);
 		int mapY = (int)(rc->posY);
+		int sprite = 0;
 
 		//length of ray from current position to next x or y-side
 		// double sideDistX;
 		// double sideDistY;
 
 		//length of ray from one x or y-side to next x or y-side
-		rc->deltaDistX = fabs(1 / rayDirX);
-		rc->deltaDistY = fabs(1 / rayDirY);
+		rc->deltaDistX = fabs(1 / rc->rayDirX);
+		rc->deltaDistY = fabs(1 / rc->rayDirY);
 		double perpWallDist;
 
 		//what direction to step in x or y-direction (either +1 or -1)
@@ -207,11 +184,11 @@ void	ft_Raycaster(t_rc *rc)
 		// int side; //was a NS or a EW wall hit?
 
 		// Alternative code for deltaDist in case division through zero is not supported
-		rc->deltaDistX = (rayDirY == 0) ? 0 : ((rayDirX == 0) ? 1 : fabs(1 / rayDirX));
-		rc->deltaDistY = (rayDirX == 0) ? 0 : ((rayDirY == 0) ? 1 : fabs(1 / rayDirY));
+		rc->deltaDistX = (rc->rayDirY == 0) ? 0 : ((rc->rayDirX == 0) ? 1 : fabs(1 / rc->rayDirX));
+		rc->deltaDistY = (rc->rayDirX == 0) ? 0 : ((rc->rayDirY == 0) ? 1 : fabs(1 / rc->rayDirY));
 
 		//calculate step and initial sideDist
-		if (rayDirX < 0)
+		if (rc->rayDirX < 0)
 		{
 			stepX = -1;
 			rc->sideDistX = (rc->posX - mapX) * rc->deltaDistX;
@@ -221,7 +198,7 @@ void	ft_Raycaster(t_rc *rc)
 			stepX = 1;
 			rc->sideDistX = (mapX + 1.0 - rc->posX) * rc->deltaDistX;
 		}
-		if (rayDirY < 0)
+		if (rc->rayDirY < 0)
 		{
 			stepY = -1;
 			rc->sideDistY = (rc->posY - mapY) * rc->deltaDistY;
@@ -247,10 +224,26 @@ void	ft_Raycaster(t_rc *rc)
 			rc->side = 1;
 			}
 			//Check if ray has hit a wall
-			if (worldMap[mapX][mapY] > 0) hit = 1;
+			if (worldMap[mapX][mapY] == 6) sprite = 1;
+			if (worldMap[mapX][mapY] != 0) hit = 1;
 		}
-		if (rc->side == 0) perpWallDist = (mapX - rc->posX + (1 - stepX) / 2) / rayDirX;
-     	else           perpWallDist = (mapY - rc->posY + (1 - stepY) / 2) / rayDirY;
+
+		//pour sd
+		// if (rc->sideDistX < rc->sideDistY)
+		// {
+		// 	rc->sd = 0;
+		// 	if (rc->sideDistX < 0)
+		// 		rc->sd = 1;
+		// }
+		// else
+		// {
+		// 	rc->sd = 2;
+		// 	if (rc->sideDistX < 0)
+		// 		rc->sd = 3;
+		// }
+		rc->sd = 3;
+		if (rc->side == 0) perpWallDist = (mapX - rc->posX + (1 - stepX) / 2) / rc->rayDirX;
+     	else           perpWallDist = (mapY - rc->posY + (1 - stepY) / 2) / rc->rayDirY;
 		int lineHeight = (int)(screenHeight / perpWallDist);
 
 		//calculate lowest and highest pixel to fill in current stripe
@@ -273,18 +266,40 @@ void	ft_Raycaster(t_rc *rc)
 		//give x and y sides different brightness
 		if (rc->side == 1) {color = color / 2;}
 
-
-		rc->VX = (double)rc->posX;
-		rc->VY = (double)rc->posY;
-
 		// printf("here %f %f\n", rayDirY, rayDirX);
 		// printf("ici : %f %f\n", deltaDistX, deltaDistY);
 		//draw the pixels of the stripe as a vertical line
 		if (rc->side == 0)
-			rc->wallX = rc->posY + perpWallDist * rayDirY;
+			rc->wallX = rc->posY + perpWallDist * rc->rayDirY;
 		else
-			rc->wallX = rc->posX + perpWallDist * rayDirX;
+			rc->wallX = rc->posX + perpWallDist * rc->rayDirX;
 		ft_verLine(x, drawStart, drawEnd, color, rc);
+		if (sprite == 1)
+		{
+			if (rc->sideDistX < rc->sideDistY)
+			{
+			rc->sideDistX += (rc->deltaDistX / 2);
+			// mapX += (stepX / 2);
+			// rc->side = 0;
+			}
+			else
+			{
+			rc->sideDistY += (rc->deltaDistY / 2);
+			// mapY += (stepY / 2);
+			// rc->side = 1;
+			}
+
+			if (rc->side == 0) perpWallDist = (mapX - rc->posX + (1 - stepX) / 2) / rc->rayDirX;
+			else           perpWallDist = (mapY - rc->posY + (1 - stepY) / 2) / rc->rayDirY;
+			lineHeight = (int)(screenHeight / perpWallDist);
+
+			//calculate lowest and highest pixel to fill in current stripe
+			drawStart = -lineHeight / 2 + screenHeight / 2;
+			if(drawStart < 0)drawStart = 0;
+			drawEnd = lineHeight / 2 + screenHeight / 2;
+			if(drawEnd >= screenHeight)drawEnd = screenHeight - 1;
+			ft_spriteLine(x, drawStart, drawEnd, color, rc);
+		}
 		// printf("here : %f %f\n", rc->sideDistX, rc->sideDistY);
 	}
 	mlx_put_image_to_window(rc->mlx, rc->win, rc->img, 0, 0);
@@ -293,28 +308,61 @@ void	ft_Raycaster(t_rc *rc)
 int		main(void)
 {
 	t_rc rc;
-	rc.posX = 22;
-	rc.posY = 12;  //x and y start position
+	rc.posX = 3;
+	rc.posY = 3;  //x and y start position
   	rc.dirX = -1;
 	rc.dirY = 0; //initial direction vector
   	rc.planeX = 0;
 	rc.planeY = 0.66; //the 2d raycaster version of camera plane
-	// printf("here\n");
+	rc.txtn = wrmalloc(sizeof(t_img *) * 5);
 
-	rc.txtn = malloc(sizeof(t_img));
+	int i = 0;
+	while (i < 5)
+	{
+		rc.txtn[i] = wrmalloc(sizeof(t_img));
+		i++;
+	}
 	rc.mlx = mlx_init();
     rc.win = mlx_new_window(rc.mlx, screenWidth, screenHeight, "RayCaster");
 	mlx_hook(rc.win, 2, 1L<<0, key_hook, &rc);
 	mlx_loop_hook(rc.mlx, key_hook, &rc);
 	rc.img = mlx_new_image(rc.mlx, screenWidth, screenHeight);
     rc.addr = mlx_get_data_addr(rc.img, &rc.bits_per_pixel, &rc.line_length, &rc.endian);
-	if (!(rc.txtn->img = mlx_png_file_to_image(rc.mlx, "./MUR.png", &rc.txtn->img_width, &rc.txtn->img_height)))
+	if (!(rc.txtn[0]->img = mlx_png_file_to_image(rc.mlx, "./MUR.png", &rc.txtn[0]->img_width, &rc.txtn[0]->img_height)))
 	{
 		printf("Error, img not found");
 		return (0);
 	}
-	rc.txtn->addr = mlx_get_data_addr(rc.txtn->img, &rc.txtn->bits_per_pixel, &rc.txtn->line_length, &rc.txtn->endian);
+	rc.txtn[0]->addr = mlx_get_data_addr(rc.txtn[0]->img, &rc.txtn[0]->bits_per_pixel, &rc.txtn[0]->line_length, &rc.txtn[0]->endian);
 
+	if (!(rc.txtn[1]->img = mlx_png_file_to_image(rc.mlx, "./Wall.png", &rc.txtn[1]->img_width, &rc.txtn[1]->img_height)))
+	{
+		printf("Error, img not found");
+		return (0);
+	}
+	rc.txtn[1]->addr = mlx_get_data_addr(rc.txtn[1]->img, &rc.txtn[1]->bits_per_pixel, &rc.txtn[1]->line_length, &rc.txtn[1]->endian);
+
+	if (!(rc.txtn[2]->img = mlx_png_file_to_image(rc.mlx, "./Wall2.png", &rc.txtn[2]->img_width, &rc.txtn[2]->img_height)))
+	{
+		printf("Error, img not found");
+		return (0);
+	}
+	rc.txtn[2]->addr = mlx_get_data_addr(rc.txtn[2]->img, &rc.txtn[2]->bits_per_pixel, &rc.txtn[2]->line_length, &rc.txtn[2]->endian);
+
+	if (!(rc.txtn[3]->img = mlx_png_file_to_image(rc.mlx, "./Wall3.png", &rc.txtn[3]->img_width, &rc.txtn[3]->img_height)))
+	{
+		printf("Error, img not found");
+		return (0);
+	}
+	rc.txtn[3]->addr = mlx_get_data_addr(rc.txtn[3]->img, &rc.txtn[3]->bits_per_pixel, &rc.txtn[3]->line_length, &rc.txtn[3]->endian);
+
+	if (!(rc.txtn[4]->img = mlx_png_file_to_image(rc.mlx, "./sprite.png", &rc.txtn[4]->img_width, &rc.txtn[4]->img_height)))
+	{
+		printf("Error, img not found");
+		return (0);
+	}
+	rc.txtn[4]->addr = mlx_get_data_addr(rc.txtn[4]->img, &rc.txtn[4]->bits_per_pixel, &rc.txtn[4]->line_length, &rc.txtn[4]->endian);
+	
 	ft_Raycaster(&rc);
 	mlx_put_image_to_window(rc.mlx, rc.win, rc.img, 0, 0);
 	mlx_loop(rc.mlx);
