@@ -76,7 +76,7 @@ void	ft_verLine(int x, int drawstart, int drawend, int color, t_rc *rc)
 	{
 		imgy = (int)(((rc->txtn[rc->side]->img_height - 1) / (double)len) * wle);
 		// printf("rc->wallX : %f\n", rc->wallX);
-		my_mlx_pixel_put(rc, x, drawstart, *(unsigned int*)get_pixel(rc->txtn[rc->sd], imgx, imgy));
+		my_mlx_pixel_put(rc, x, drawstart, *(unsigned int*)get_pixel(rc->txtn[rc->side], imgx, imgy));
 		wle++;
 		drawstart++;
 	}
