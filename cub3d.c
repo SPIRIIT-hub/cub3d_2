@@ -213,39 +213,25 @@ void	ft_Raycaster(t_rc *rc)
 			//jump to next map square, OR in x-direction, OR in y-direction
 			if (rc->sideDistX < rc->sideDistY)
 			{
-			rc->sideDistX += rc->deltaDistX;
-			mapX += stepX;
-			rc->side = 0;
+				rc->sideDistX += rc->deltaDistX;
+				mapX += stepX;
+				rc->side = 0;
+				rc->sd = 0;
 			}
 			else
 			{
 			rc->sideDistY += rc->deltaDistY;
 			mapY += stepY;
 			rc->side = 1;
+			rc->sd = 1;
 			}
 			//Check if ray has hit a wall
 			if (worldMap[mapX][mapY] == 6) sprite = 1;
 			if (worldMap[mapX][mapY] != 0) hit = 1;
 		}
-
-		//pour sd
-		// printf("planX %f %f\n", rc->planeX rc->planeY)
-		// if (rc->planeX < rc->planeY)
-		// {
-		// 	rc->sd = 0;
-		// 	if (rc->planeX < 0)
-		// 		rc->sd = 1;
-		// }
-		// else 
-		// {
-		// 	rc->sd = 2;
-		// 	if (rc->planeY < 0)
-		// 		rc->sd = 3;
-		// }
 		
-		rc->sd = 3;
-		if (rc->side == 0) perpWallDist = (mapX - rc->posX + (1 - stepX) / 2) / rc->rayDirX;
-     	else           perpWallDist = (mapY - rc->posY + (1 - stepY) / 2) / rc->rayDirY;
+		if (rc->side == 0)	perpWallDist = (mapX - rc->posX + (1 - stepX) / 2) / rc->rayDirX;
+		else				perpWallDist = (mapY - rc->posY + (1 - stepY) / 2) / rc->rayDirY;
 		int lineHeight = (int)(screenHeight / perpWallDist);
 
 		//calculate lowest and highest pixel to fill in current stripe
@@ -271,31 +257,18 @@ void	ft_Raycaster(t_rc *rc)
 		// printf("here %f %f\n", rayDirY, rayDirX);
 		// printf("ici : %f %f\n", deltaDistX, deltaDistY);
 		//draw the pixels of the stripe as a vertical line
-		double test;
+
 		if (rc->side == 0)
 		{
 			rc->wallX = rc->posY + perpWallDist * rc->rayDirY;
-			test = (double)(perpWallDist * rc->rayDirX);
-			test = test - (int)test;
-			if (test >= 0.5)
-				rc->sd = 0;
-			else
-				rc->sd = 1;
+			if (rc->rayDirX > 0)
+				rc->sd = 3;
 		}
 		else
 		{
 			rc->wallX = rc->posX + perpWallDist * rc->rayDirX;
-			// printf("Wall : %f %f %f %f\n", rc->posY, rc->rayDirY, perpWallDist, ((double)rc->posY + ((double)(perpWallDist * rc->rayDirY))));
-			test = (double)(perpWallDist * rc->rayDirY);
-			test = test - (int)test;
-		
-			if (test >= 0.05)
-			{
+			if (rc->rayDirY > 0)
 				rc->sd = 2;
-				
-			}
-			else
-				rc->sd = 3;
 		}
 
 		ft_verLine(x, drawStart, drawEnd, color, rc);
