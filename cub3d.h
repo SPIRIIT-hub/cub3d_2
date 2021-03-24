@@ -63,6 +63,8 @@ typedef struct  	s_rc {
 		double		wallX;
 		int			side;
 		int			sd;
+		int			sprX;
+		int			sprY;
         t_img       **txtn;
 }               	t_rc;
 

@@ -226,8 +226,13 @@ void	ft_Raycaster(t_rc *rc)
 			rc->sd = 1;
 			}
 			//Check if ray has hit a wall
-			if (worldMap[mapX][mapY] == 6) sprite = 1;
-			if (worldMap[mapX][mapY] != 0) hit = 1;
+			if (worldMap[mapX][mapY] == 6){
+				sprite = 1;
+				rc->sprX = mapX;
+				rc->sprY = mapY;
+			}
+			
+			if (worldMap[mapX][mapY] != 0 && worldMap[mapX][mapY] != 6) hit = 1;
 		}
 		
 		if (rc->side == 0)	perpWallDist = (mapX - rc->posX + (1 - stepX) / 2) / rc->rayDirX;
@@ -274,29 +279,39 @@ void	ft_Raycaster(t_rc *rc)
 		ft_verLine(x, drawStart, drawEnd, color, rc);
 		if (sprite == 1)
 		{
-			if (rc->sideDistX < rc->sideDistY)
-			{
-			rc->sideDistX += (rc->deltaDistX / 2);
-			// mapX += (stepX / 2);
-			// rc->side = 0;
-			}
-			else
-			{
-			rc->sideDistY += (rc->deltaDistY / 2);
-			// mapY += (stepY / 2);
-			// rc->side = 1;
-			}
+			double spriteX = rc->sprX - rc->posX;
+			double spriteY = rc->sprY - rc->posY;
 
-			if (rc->side == 0) perpWallDist = (mapX - rc->posX + (1 - stepX) / 2) / rc->rayDirX;
-			else           perpWallDist = (mapY - rc->posY + (1 - stepY) / 2) / rc->rayDirY;
-			lineHeight = (int)(screenHeight / perpWallDist);
+			//transform sprite with the inverse camera matrix
+			// [ planeX   dirX ] -1                                       [ dirY      -dirX ]
+			// [               ]       =  1/(planeX*dirY-dirX*planeY) *   [                 ]
+			// [ planeY   dirY ]                                          [ -planeY  planeX ]
 
+			double invDet = 1.0 / (rc->planeX * rc->dirY - rc->dirX * rc->planeY); //required for correct matrix multiplication
+
+			double transformX = invDet * (rc->dirY * spriteX - rc->dirX * spriteY);
+			double transformY = invDet * (-rc->planeY * spriteX + rc->planeX * spriteY); //this is actually the depth inside the screen, that what Z is in 3D
+
+			int spriteScreenX = (int)((screenWidth / 2) * (1 + transformX / transformY));
+
+			//calculate height of the sprite on screen
+			int spriteHeight = abs((int)(screenHeight / (transformY))); //using 'transformY' instead of the real distance prevents fisheye
 			//calculate lowest and highest pixel to fill in current stripe
-			drawStart = -lineHeight / 2 + screenHeight / 2;
-			if(drawStart < 0)drawStart = 0;
-			drawEnd = lineHeight / 2 + screenHeight / 2;
-			if(drawEnd >= screenHeight)drawEnd = screenHeight - 1;
-			ft_spriteLine(x, drawStart, drawEnd, color, rc);
+			int drawStartY = -spriteHeight / 2 + screenHeight / 2;
+			if(drawStartY < 0) drawStartY = 0;
+			int drawEndY = spriteHeight / 2 + screenHeight / 2;
+			if(drawEndY >= screenHeight) drawEndY = screenHeight - 1;
+
+			//calculate width of the sprite
+			int spriteWidth = abs( (int) (screenHeight / (transformY)));
+			int drawStartX = -spriteWidth / 2 + spriteScreenX;
+			if(drawStartX < 0) drawStartX = 0;
+			int drawEndX = spriteWidth / 2 + spriteScreenX;
+			if(drawEndX >= screenWidth) drawEndX = screenWidth - 1;;
+			for (int l = drawStartY; l < drawEndY; l++)
+			{
+				my_mlx_pixel_put(rc, x, l++, 0xFBFF00);
+			}
 		}
 		// printf("here : %f %f\n", rc->sideDistX, rc->sideDistY);
 	}
