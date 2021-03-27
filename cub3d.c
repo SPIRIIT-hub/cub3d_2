@@ -3,7 +3,7 @@
 #define mapWidth 24
 #define mapHeight 24
 #define screenWidth 1024
-#define screenHeight 512
+#define screenHeight 1024
 #define moveSpeed 1
 #define rotSpeed 0.0872665
 
@@ -154,7 +154,6 @@ int             key_hook(int keycode, t_rc *rc)
 void	ft_Raycaster(t_rc *rc)
 {
 	int x = 0;
-
 	
 	for(int x = 0; x < screenWidth; x++)
     {
@@ -307,11 +306,31 @@ void	ft_Raycaster(t_rc *rc)
 			int drawStartX = -spriteWidth / 2 + spriteScreenX;
 			if(drawStartX < 0) drawStartX = 0;
 			int drawEndX = spriteWidth / 2 + spriteScreenX;
-			if(drawEndX >= screenWidth) drawEndX = screenWidth - 1;;
-			for (int l = drawStartY; l < drawEndY; l++)
+			if(drawEndX >= screenWidth) drawEndX = screenWidth - 1;
+
+			for(int stripe = drawStartX; stripe < drawEndX; stripe++)
 			{
-				my_mlx_pixel_put(rc, x, l++, 0xFBFF00);
+				int texX = (int)(256 * (stripe - (-spriteWidth / 2 + spriteScreenX)) * rc->txtn[4]->img_width / spriteWidth) / 256;
+				//the conditions in the if are:
+				//1) it's in front of camera plane so you don't see things behind you
+				//2) it's on the screen (left)
+				//3) it's on the screen (right)
+				//4) ZBuffer, with perpendicular distance
+				if(transformY > 0 && stripe > 0 && stripe < screenWidth && transformY < perpWallDist)
+					for(int y = drawStartY; y < drawEndY; y++) //for every pixel of the current stripe
+					{
+						int d = (y) * 256 - screenHeight * 128 + spriteHeight * 128;  //256 and 128 factors to avoid floats
+						int texY = ((d * rc->txtn[4]->img_height) / spriteHeight) / 256;
+						long color = rc->txtn[4]->addr[rc->txtn[4]->img_height * texY + texX];
+						rc->addr[(y * screenWidth + x)] = color;
+						// if((color & 0x00FFFFFF) != 0) my_mlx_pixel_put(rc, stripe, y, *(unsigned int*)get_pixel(rc->txtn[4], texX, texY));
+					}
 			}
+
+			// for (int l = drawStartY; l < drawEndY; l++)
+			// {
+			// 	my_mlx_pixel_put(rc, x, l++, 0xFBFF00);
+			// }
 		}
 		// printf("here : %f %f\n", rc->sideDistX, rc->sideDistY);
 	}
@@ -369,7 +388,7 @@ int		main(void)
 	}
 	rc.txtn[3]->addr = mlx_get_data_addr(rc.txtn[3]->img, &rc.txtn[3]->bits_per_pixel, &rc.txtn[3]->line_length, &rc.txtn[3]->endian);
 
-	if (!(rc.txtn[4]->img = mlx_png_file_to_image(rc.mlx, "./sprite.png", &rc.txtn[4]->img_width, &rc.txtn[4]->img_height)))
+	if (!(rc.txtn[4]->img = mlx_png_file_to_image(rc.mlx, "./barrel.png", &rc.txtn[4]->img_width, &rc.txtn[4]->img_height)))
 	{
 		printf("Error, img not found");
 		return (0);
