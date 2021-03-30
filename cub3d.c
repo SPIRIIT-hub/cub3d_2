@@ -3,9 +3,11 @@
 #define mapWidth 24
 #define mapHeight 24
 #define screenWidth 1024
-#define screenHeight 1024
+#define screenHeight 512
 #define moveSpeed 1
 #define rotSpeed 0.0872665
+
+double zBuffer[5000];
 
 int worldMap[mapWidth][mapHeight]=
 {
@@ -14,7 +16,7 @@ int worldMap[mapWidth][mapHeight]=
   {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
   {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
   {1,0,0,0,0,0,2,2,2,2,2,0,0,0,0,3,0,3,0,3,0,0,0,1},
-  {1,0,0,6,0,0,2,0,0,0,2,0,0,0,0,0,0,0,0,0,0,0,0,1},
+  {1,6,0,0,0,0,2,0,0,0,2,0,0,0,0,0,0,0,0,0,0,0,0,1},
   {1,0,0,0,0,0,2,0,0,0,2,0,0,0,0,3,0,0,0,3,0,0,0,1},
   {1,0,0,0,0,0,2,0,0,0,2,0,0,0,0,0,0,0,0,0,0,0,0,1},
   {1,0,0,0,0,0,2,2,0,2,2,0,0,0,0,3,0,3,0,3,0,0,0,1},
@@ -72,6 +74,12 @@ void	ft_verLine(int x, int drawstart, int drawend, int color, t_rc *rc)
 	// printf("camera : %f\n", rc->planeX);
 	imgx = (int)(rc->txtn[rc->side]->img_width * (rc->wallX - (int)rc->wallX));
 	imgy = (int)(((rc->txtn[rc->side]->img_height - 1) / (double)len) * wle);
+	while (wle < drawstart)
+	{
+		my_mlx_pixel_put(rc, x, wle, 0x008DFF);
+		wle++;
+	}
+	wle = 0;
 	while (wle < len)
 	{
 		imgy = (int)(((rc->txtn[rc->side]->img_height - 1) / (double)len) * wle);
@@ -79,6 +87,12 @@ void	ft_verLine(int x, int drawstart, int drawend, int color, t_rc *rc)
 		my_mlx_pixel_put(rc, x, drawstart, *(unsigned int*)get_pixel(rc->txtn[rc->sd], imgx, imgy));
 		wle++;
 		drawstart++;
+	}
+	wle = drawend;
+	while (wle < screenHeight)
+	{
+		my_mlx_pixel_put(rc, x, wle, 0x067802);
+		wle++;
 	}
 }
 
@@ -274,67 +288,66 @@ void	ft_Raycaster(t_rc *rc)
 			if (rc->rayDirY > 0)
 				rc->sd = 2;
 		}
-
+		zBuffer[x] = perpWallDist;
 		ft_verLine(x, drawStart, drawEnd, color, rc);
-		if (sprite == 1)
-		{
-			double spriteX = rc->sprX - rc->posX;
-			double spriteY = rc->sprY - rc->posY;
-
-			//transform sprite with the inverse camera matrix
-			// [ planeX   dirX ] -1                                       [ dirY      -dirX ]
-			// [               ]       =  1/(planeX*dirY-dirX*planeY) *   [                 ]
-			// [ planeY   dirY ]                                          [ -planeY  planeX ]
-
-			double invDet = 1.0 / (rc->planeX * rc->dirY - rc->dirX * rc->planeY); //required for correct matrix multiplication
-
-			double transformX = invDet * (rc->dirY * spriteX - rc->dirX * spriteY);
-			double transformY = invDet * (-rc->planeY * spriteX + rc->planeX * spriteY); //this is actually the depth inside the screen, that what Z is in 3D
-
-			int spriteScreenX = (int)((screenWidth / 2) * (1 + transformX / transformY));
-
-			//calculate height of the sprite on screen
-			int spriteHeight = abs((int)(screenHeight / (transformY))); //using 'transformY' instead of the real distance prevents fisheye
-			//calculate lowest and highest pixel to fill in current stripe
-			int drawStartY = -spriteHeight / 2 + screenHeight / 2;
-			if(drawStartY < 0) drawStartY = 0;
-			int drawEndY = spriteHeight / 2 + screenHeight / 2;
-			if(drawEndY >= screenHeight) drawEndY = screenHeight - 1;
-
-			//calculate width of the sprite
-			int spriteWidth = abs( (int) (screenHeight / (transformY)));
-			int drawStartX = -spriteWidth / 2 + spriteScreenX;
-			if(drawStartX < 0) drawStartX = 0;
-			int drawEndX = spriteWidth / 2 + spriteScreenX;
-			if(drawEndX >= screenWidth) drawEndX = screenWidth - 1;
-
-			for(int stripe = drawStartX; stripe < drawEndX; stripe++)
-			{
-				int texX = (int)(256 * (stripe - (-spriteWidth / 2 + spriteScreenX)) * rc->txtn[4]->img_width / spriteWidth) / 256;
-				//the conditions in the if are:
-				//1) it's in front of camera plane so you don't see things behind you
-				//2) it's on the screen (left)
-				//3) it's on the screen (right)
-				//4) ZBuffer, with perpendicular distance
-				if(transformY > 0 && stripe > 0 && stripe < screenWidth && transformY < perpWallDist)
-					for(int y = drawStartY; y < drawEndY; y++) //for every pixel of the current stripe
-					{
-						int d = (y) * 256 - screenHeight * 128 + spriteHeight * 128;  //256 and 128 factors to avoid floats
-						int texY = ((d * rc->txtn[4]->img_height) / spriteHeight) / 256;
-						long color = rc->txtn[4]->addr[rc->txtn[4]->img_height * texY + texX];
-						rc->addr[(y * screenWidth + x)] = color;
-						// if((color & 0x00FFFFFF) != 0) my_mlx_pixel_put(rc, stripe, y, *(unsigned int*)get_pixel(rc->txtn[4], texX, texY));
-					}
-			}
-
-			// for (int l = drawStartY; l < drawEndY; l++)
-			// {
-			// 	my_mlx_pixel_put(rc, x, l++, 0xFBFF00);
-			// }
-		}
 		// printf("here : %f %f\n", rc->sideDistX, rc->sideDistY);
 	}
+	ft_sprite(rc);
 	mlx_put_image_to_window(rc->mlx, rc->win, rc->img, 0, 0);
+}
+
+void	ft_sprite(t_rc *rc)
+{
+	double spriteX = rc->sprX - rc->posX + 0.5;
+	double spriteY = rc->sprY - rc->posY + 0.5;
+
+	//transform sprite with the inverse camera matrix
+	// [ planeX   dirX ] -1                                       [ dirY      -dirX ]
+	// [               ]       =  1/(planeX*dirY-dirX*planeY) *   [                 ]
+	// [ planeY   dirY ]                                          [ -planeY  planeX ]
+
+	double invDet = 1.0 / (rc->planeX * rc->dirY - rc->dirX * rc->planeY); //required for correct matrix multiplication
+
+	double transformX = (invDet * (rc->dirY * spriteX - rc->dirX * spriteY));
+	double transformY = (invDet * (-rc->planeY * spriteX + rc->planeX * spriteY)); //this is actually the depth inside the screen, that what Z is in 3D
+
+	int spriteScreenX = (int)((screenWidth / 2) * (1 + transformX / transformY));
+
+	//calculate height of the sprite on screen
+	int spriteHeight = abs((int)(screenHeight / (transformY))); //using 'transformY' instead of the real distance prevents fisheye
+	//calculate lowest and highest pixel to fill in current stripe
+	int drawStartY = -spriteHeight / 2 + screenHeight / 2;
+	if(drawStartY < 0) drawStartY = 0;
+	int drawEndY = spriteHeight / 2 + screenHeight / 2;
+	if(drawEndY >= screenHeight) drawEndY = screenHeight - 1;
+
+	//calculate width of the sprite
+	int spriteWidth = abs( (int) (screenHeight / (transformY)));
+	int drawStartX = -spriteWidth / 2 + spriteScreenX;
+	if(drawStartX < 0) drawStartX = 0;
+	int drawEndX = spriteWidth / 2 + spriteScreenX;
+	if(drawEndX >= screenWidth) drawEndX = screenWidth - 1;
+
+	for(int stripe = drawStartX; stripe < drawEndX; stripe++)
+	{
+		int texX = (int)(256 * (stripe - (-spriteWidth / 2 + spriteScreenX)) * rc->txtn[4]->img_width / spriteWidth) / 256;
+		//the conditions in the if are:
+		//1) it's in front of camera plane so you don't see things behind you
+		//2) it's on the screen (left)
+		//3) it's on the screen (right)
+		//4) ZBuffer, with perpendicular distance
+		if(transformY > 0 && stripe > 0 && stripe < screenWidth && transformY < zBuffer[stripe])
+			for(int y = drawStartY; y < drawEndY; y++) //for every pixel of the current stripe
+			{
+				int d = (y) * 256 - screenHeight * 128 + spriteHeight * 128;  //256 and 128 factors to avoid floats
+				int texY = ((d * rc->txtn[4]->img_height) / spriteHeight) / 256;
+				// long color = rc->txtn[4]->addr[rc->txtn[4]->img_height * texY + texX];
+				// rc->addr[(y * screenWidth + stripe)] = color;
+				// if((color & 0x00FFFFFF) != 0)
+				if (*(unsigned int*)get_pixel(rc->txtn[4], texX, texY) != 0)
+					my_mlx_pixel_put(rc, stripe, y, *(unsigned int*)get_pixel(rc->txtn[4], texX, texY));
+			}
+	}
 }
 
 int		main(void)
@@ -360,28 +373,28 @@ int		main(void)
 	mlx_loop_hook(rc.mlx, key_hook, &rc);
 	rc.img = mlx_new_image(rc.mlx, screenWidth, screenHeight);
     rc.addr = mlx_get_data_addr(rc.img, &rc.bits_per_pixel, &rc.line_length, &rc.endian);
-	if (!(rc.txtn[0]->img = mlx_png_file_to_image(rc.mlx, "./MUR.png", &rc.txtn[0]->img_width, &rc.txtn[0]->img_height)))
+	if (!(rc.txtn[0]->img = mlx_png_file_to_image(rc.mlx, "./mossy.png", &rc.txtn[0]->img_width, &rc.txtn[0]->img_height)))
 	{
 		printf("Error, img not found");
 		return (0);
 	}
 	rc.txtn[0]->addr = mlx_get_data_addr(rc.txtn[0]->img, &rc.txtn[0]->bits_per_pixel, &rc.txtn[0]->line_length, &rc.txtn[0]->endian);
 
-	if (!(rc.txtn[1]->img = mlx_png_file_to_image(rc.mlx, "./Wall.png", &rc.txtn[1]->img_width, &rc.txtn[1]->img_height)))
+	if (!(rc.txtn[1]->img = mlx_png_file_to_image(rc.mlx, "./purplestone.png", &rc.txtn[1]->img_width, &rc.txtn[1]->img_height)))
 	{
 		printf("Error, img not found");
 		return (0);
 	}
 	rc.txtn[1]->addr = mlx_get_data_addr(rc.txtn[1]->img, &rc.txtn[1]->bits_per_pixel, &rc.txtn[1]->line_length, &rc.txtn[1]->endian);
 
-	if (!(rc.txtn[2]->img = mlx_png_file_to_image(rc.mlx, "./Wall2.png", &rc.txtn[2]->img_width, &rc.txtn[2]->img_height)))
+	if (!(rc.txtn[2]->img = mlx_png_file_to_image(rc.mlx, "./redbrick.png", &rc.txtn[2]->img_width, &rc.txtn[2]->img_height)))
 	{
 		printf("Error, img not found");
 		return (0);
 	}
 	rc.txtn[2]->addr = mlx_get_data_addr(rc.txtn[2]->img, &rc.txtn[2]->bits_per_pixel, &rc.txtn[2]->line_length, &rc.txtn[2]->endian);
 
-	if (!(rc.txtn[3]->img = mlx_png_file_to_image(rc.mlx, "./Wall3.png", &rc.txtn[3]->img_width, &rc.txtn[3]->img_height)))
+	if (!(rc.txtn[3]->img = mlx_png_file_to_image(rc.mlx, "./greystone.png", &rc.txtn[3]->img_width, &rc.txtn[3]->img_height)))
 	{
 		printf("Error, img not found");
 		return (0);

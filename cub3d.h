@@ -75,6 +75,6 @@ int				wrfree(void *ptr);
 void			*wrmalloc(unsigned long size);
 void			wrdestroy(void);
 void			ft_lstadd_back(t_list **alst, t_list *new);
-
+void			ft_sprite(t_rc *rc);
 
 #endif
