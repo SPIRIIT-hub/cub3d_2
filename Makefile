@@ -8,7 +8,7 @@ CC  = gcc
 
 RM  = rm -f
 
-CFLAGS = -I. -g3 -fsanitize=address #-Wall -Wextra -Werror
+CFLAGS = -I. -O3#-g3 -fsanitize=address #-Wall -Wextra -Werror
 
 all:		$(NAME)
 

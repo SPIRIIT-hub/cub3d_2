@@ -2,8 +2,8 @@
 
 #define mapWidth 24
 #define mapHeight 24
-#define screenWidth 1024
-#define screenHeight 512
+#define screenWidth 1000
+#define screenHeight 1000
 #define moveSpeed 1
 #define rotSpeed 0.0872665
 
