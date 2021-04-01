@@ -15,25 +15,25 @@ int worldMap[mapWidth][mapHeight]=
   {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
   {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
   {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
-  {1,0,0,0,0,0,2,2,2,2,2,0,0,0,0,3,0,3,0,3,0,0,0,1},
-  {1,6,0,0,0,0,2,0,0,0,2,0,0,0,0,0,0,0,0,0,0,0,0,1},
-  {1,0,0,0,0,0,2,0,0,0,2,0,0,0,0,3,0,0,0,3,0,0,0,1},
-  {1,0,0,0,0,0,2,0,0,0,2,0,0,0,0,0,0,0,0,0,0,0,0,1},
-  {1,0,0,0,0,0,2,2,0,2,2,0,0,0,0,3,0,3,0,3,0,0,0,1},
+  {1,0,0,0,0,0,1,1,1,1,1,0,0,0,0,1,0,1,0,1,0,0,0,1},
+  {1,0,0,0,0,0,1,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,1},
+  {1,0,0,0,0,0,1,0,0,0,1,0,0,0,0,1,0,0,0,1,0,0,0,1},
+  {1,0,2,2,2,0,1,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,1},
+  {1,0,2,2,2,0,1,1,0,1,1,0,0,0,0,1,0,1,0,1,0,0,0,1},
+  {1,0,2,2,2,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
+  {1,0,2,2,2,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
+  {1,0,2,2,2,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
   {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
   {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
   {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
   {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
-  {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
-  {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
-  {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
-  {1,4,4,4,4,4,4,4,4,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
-  {1,4,0,4,0,0,0,0,4,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
-  {1,4,0,0,0,0,5,0,4,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
-  {1,4,0,4,0,0,0,0,4,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
-  {1,4,0,4,4,4,4,4,4,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
-  {1,4,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
-  {1,4,4,4,4,4,4,4,4,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
+  {1,1,1,1,1,1,1,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
+  {1,1,0,1,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
+  {1,1,0,0,0,0,1,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
+  {1,1,0,1,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
+  {1,1,0,1,1,1,1,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
+  {1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
+  {1,1,1,1,1,1,1,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
   {1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1}
 };
 
@@ -84,7 +84,8 @@ void	ft_verLine(int x, int drawstart, int drawend, int color, t_rc *rc)
 	{
 		imgy = (int)(((rc->txtn[rc->side]->img_height - 1) / (double)len) * wle);
 		// printf("rc->wallX : %f\n", rc->wallX);
-		my_mlx_pixel_put(rc, x, drawstart, *(unsigned int*)get_pixel(rc->txtn[rc->sd], imgx, imgy));
+		if(drawstart > 0 && !(drawstart >= screenHeight))
+			my_mlx_pixel_put(rc, x, drawstart, *(unsigned int*)get_pixel(rc->txtn[rc->sd], imgx, imgy));
 		wle++;
 		drawstart++;
 	}
@@ -115,6 +116,12 @@ void	ft_spriteLine(int x, int drawstart, int drawend, int color, t_rc *rc)
 	}
 }
 
+int				ft_close(int keycode, t_rc *rc)
+{
+	exit(0);
+	return (1);
+}
+
 int             key_hook(int keycode, t_rc *rc)
 {
 	if (keycode == KEY_ESC)
@@ -123,16 +130,16 @@ int             key_hook(int keycode, t_rc *rc)
 	}
 	if (keycode == KEY_W)
     {
-      if(worldMap[(int)(rc->posX + rc->dirX * moveSpeed)][(int)(rc->posY)] == 0) rc->posX += rc->dirX * moveSpeed;
-      if(worldMap[(int)(rc->posX)][(int)(rc->posY + rc->dirY * moveSpeed)] == 0) rc->posY += rc->dirY * moveSpeed;
+      if(worldMap[(int)(rc->posX + rc->dirX * moveSpeed)][(int)(rc->posY)] != 1) rc->posX += rc->dirX * moveSpeed;
+      if(worldMap[(int)(rc->posX)][(int)(rc->posY + rc->dirY * moveSpeed)] != 1) rc->posY += rc->dirY * moveSpeed;
 	  ft_clear(rc);
 	  ft_Raycaster(rc);
     }
     //move backwards if no wall behind you
     if (keycode == KEY_S)
     {
-      if(worldMap[(int)(rc->posX - rc->dirX * moveSpeed)][(int)(rc->posY)] == 0) rc->posX -= rc->dirX * moveSpeed;
-      if(worldMap[(int)(rc->posX)][(int)(rc->posY - rc->dirY * moveSpeed)] == 0) rc->posY -= rc->dirY * moveSpeed;
+      if(worldMap[(int)(rc->posX - rc->dirX * moveSpeed)][(int)(rc->posY)] != 1) rc->posX -= rc->dirX * moveSpeed;
+      if(worldMap[(int)(rc->posX)][(int)(rc->posY - rc->dirY * moveSpeed)] != 1) rc->posY -= rc->dirY * moveSpeed;
 	  ft_clear(rc);
 	  ft_Raycaster(rc);
     }
@@ -165,10 +172,32 @@ int             key_hook(int keycode, t_rc *rc)
 	return (0);
 }
 
+int		ft_isalreadyset(t_rc *rc, int mapX, int mapY)
+{
+	int i = 0;
+
+	while (rc->sprX[i])
+	{
+		if (rc->sprX[i] == mapX)
+		{
+			i = 0;
+			while (rc->sprY[i])
+			{
+				if (rc->sprY[i] == mapY)
+					return (1);
+				i++;
+			}
+			return (0);
+		}
+		i++;
+	}
+	return (0);
+}
+
 void	ft_Raycaster(t_rc *rc)
 {
 	int x = 0;
-	
+	rc->sprindex = -1;
 	for(int x = 0; x < screenWidth; x++)
     {
 		//calculate ray position and direction
@@ -233,19 +262,26 @@ void	ft_Raycaster(t_rc *rc)
 			}
 			else
 			{
-			rc->sideDistY += rc->deltaDistY;
-			mapY += stepY;
-			rc->side = 1;
-			rc->sd = 1;
+				rc->sideDistY += rc->deltaDistY;
+				mapY += stepY;
+				rc->side = 1;
+				rc->sd = 1;
 			}
 			//Check if ray has hit a wall
-			if (worldMap[mapX][mapY] == 6){
-				sprite = 1;
-				rc->sprX = mapX;
-				rc->sprY = mapY;
-			}
+			// if (worldMap[mapX][mapY] == 2){
+			// 	sprite += 1;
+			// 	if ((mapX == 8 && mapY == 2 && !ft_isalreadyset(rc, mapX, mapY)) || ((!rc->sprX[rc->sprindex] || !rc->sprY[rc->sprindex]) || !ft_isalreadyset(rc, mapX, mapY))) //  || !(rc->sprX[rc->sprindex] == mapX && rc->sprY[rc->sprindex] == mapY)
+			// 	{
+			// 		printf("here%d %d %d|", rc->sprindex, mapX, mapY);
+			// 		rc->sprindex++;
+			// 		rc->sprX[rc->sprindex] = mapX;
+			// 		rc->sprX[rc->sprindex + 1] = 0;
+			// 		rc->sprY[rc->sprindex] = mapY;
+			// 		rc->sprY[rc->sprindex + 1] = 0;
+			// 	}
+			// }
 			
-			if (worldMap[mapX][mapY] != 0 && worldMap[mapX][mapY] != 6) hit = 1;
+			if (worldMap[mapX][mapY] == 1) hit = 1;
 		}
 		
 		if (rc->side == 0)	perpWallDist = (mapX - rc->posX + (1 - stepX) / 2) / rc->rayDirX;
@@ -254,9 +290,9 @@ void	ft_Raycaster(t_rc *rc)
 
 		//calculate lowest and highest pixel to fill in current stripe
 		int drawStart = -lineHeight / 2 + screenHeight / 2;
-		if(drawStart < 0)drawStart = 0;
+		// if(drawStart < 0)drawStart = 0;
 		int drawEnd = lineHeight / 2 + screenHeight / 2;
-		if(drawEnd >= screenHeight)drawEnd = screenHeight - 1;
+		// if(drawEnd >= screenHeight)drawEnd = screenHeight - 1;
 
 		int color;
 		// printf("worldMap[mapX][mapY] : %d\n", worldMap[mapX][mapY]);
@@ -292,61 +328,129 @@ void	ft_Raycaster(t_rc *rc)
 		ft_verLine(x, drawStart, drawEnd, color, rc);
 		// printf("here : %f %f\n", rc->sideDistX, rc->sideDistY);
 	}
+	ft_spritedata(rc);
 	ft_sprite(rc);
 	mlx_put_image_to_window(rc->mlx, rc->win, rc->img, 0, 0);
 }
 
+void	ft_spritedata(t_rc *rc)
+{
+	int i = 0;
+	int j = 0;
+
+	while (i < mapWidth)
+	{
+		while (j < mapHeight)
+		{
+			if (worldMap[i][j] == 2)
+			{
+				rc->sprindex++;
+				rc->sprX[rc->sprindex] = i;
+				rc->sprX[rc->sprindex + 1] = 0;
+				rc->sprY[rc->sprindex] = j;
+				rc->sprY[rc->sprindex + 1] = 0;
+			}
+			j++;
+		}
+		j = 0;
+		i++;
+	}
+}
+
 void	ft_sprite(t_rc *rc)
 {
-	double spriteX = rc->sprX - rc->posX + 0.5;
-	double spriteY = rc->sprY - rc->posY + 0.5;
+	int i = 0;
+	int order[rc->sprindex + 1];
 
-	//transform sprite with the inverse camera matrix
-	// [ planeX   dirX ] -1                                       [ dirY      -dirX ]
-	// [               ]       =  1/(planeX*dirY-dirX*planeY) *   [                 ]
-	// [ planeY   dirY ]                                          [ -planeY  planeX ]
-
-	double invDet = 1.0 / (rc->planeX * rc->dirY - rc->dirX * rc->planeY); //required for correct matrix multiplication
-
-	double transformX = (invDet * (rc->dirY * spriteX - rc->dirX * spriteY));
-	double transformY = (invDet * (-rc->planeY * spriteX + rc->planeX * spriteY)); //this is actually the depth inside the screen, that what Z is in 3D
-
-	int spriteScreenX = (int)((screenWidth / 2) * (1 + transformX / transformY));
-
-	//calculate height of the sprite on screen
-	int spriteHeight = abs((int)(screenHeight / (transformY))); //using 'transformY' instead of the real distance prevents fisheye
-	//calculate lowest and highest pixel to fill in current stripe
-	int drawStartY = -spriteHeight / 2 + screenHeight / 2;
-	if(drawStartY < 0) drawStartY = 0;
-	int drawEndY = spriteHeight / 2 + screenHeight / 2;
-	if(drawEndY >= screenHeight) drawEndY = screenHeight - 1;
-
-	//calculate width of the sprite
-	int spriteWidth = abs( (int) (screenHeight / (transformY)));
-	int drawStartX = -spriteWidth / 2 + spriteScreenX;
-	if(drawStartX < 0) drawStartX = 0;
-	int drawEndX = spriteWidth / 2 + spriteScreenX;
-	if(drawEndX >= screenWidth) drawEndX = screenWidth - 1;
-
-	for(int stripe = drawStartX; stripe < drawEndX; stripe++)
+	double spriteDistance[100];
+	while (i <= rc->sprindex)
 	{
-		int texX = (int)(256 * (stripe - (-spriteWidth / 2 + spriteScreenX)) * rc->txtn[4]->img_width / spriteWidth) / 256;
-		//the conditions in the if are:
-		//1) it's in front of camera plane so you don't see things behind you
-		//2) it's on the screen (left)
-		//3) it's on the screen (right)
-		//4) ZBuffer, with perpendicular distance
-		if(transformY > 0 && stripe > 0 && stripe < screenWidth && transformY < zBuffer[stripe])
-			for(int y = drawStartY; y < drawEndY; y++) //for every pixel of the current stripe
+		spriteDistance[i] = ((rc->posX - rc->sprX[i]) * (rc->posX - rc->sprX[i]) + (rc->posY - rc->sprY[i]) * (rc->posY - rc->sprY[i]));
+		i++;
+	}
+	i = 0;
+	double tmp = 0;
+	int tmp1 = 0;
+	int j = 0;
+	while (j <= rc->sprindex)
+	{
+		order[j] = j;
+		j++;
+	}
+	j = 0;
+	while (i <= rc->sprindex)
+	{
+		j = i;
+		while (j <= rc->sprindex)
+		{
+			if (spriteDistance[i] < spriteDistance[j])
 			{
-				int d = (y) * 256 - screenHeight * 128 + spriteHeight * 128;  //256 and 128 factors to avoid floats
-				int texY = ((d * rc->txtn[4]->img_height) / spriteHeight) / 256;
-				// long color = rc->txtn[4]->addr[rc->txtn[4]->img_height * texY + texX];
-				// rc->addr[(y * screenWidth + stripe)] = color;
-				// if((color & 0x00FFFFFF) != 0)
-				if (*(unsigned int*)get_pixel(rc->txtn[4], texX, texY) != 0)
-					my_mlx_pixel_put(rc, stripe, y, *(unsigned int*)get_pixel(rc->txtn[4], texX, texY));
+				tmp = spriteDistance[i];
+				spriteDistance[i] = spriteDistance[j];
+				spriteDistance[j] = tmp;
+				tmp1 = order[i];
+				order[i] = order[j];
+				order[j] = tmp1;
 			}
+			j++;
+		}
+		i++;
+	}
+	i = 0;
+	
+	while (i <= rc->sprindex)
+	{
+		double spriteX = rc->sprX[order[i]] - rc->posX + 0.5;
+		double spriteY = rc->sprY[order[i]] - rc->posY + 0.5;
+
+		//transform sprite with the inverse camera matrix
+		// [ planeX   dirX ] -1                                       [ dirY      -dirX ]
+		// [               ]       =  1/(planeX*dirY-dirX*planeY) *   [                 ]
+		// [ planeY   dirY ]                                          [ -planeY  planeX ]
+
+		double invDet = 1.0 / (rc->planeX * rc->dirY - rc->dirX * rc->planeY); //required for correct matrix multiplication
+
+		double transformX = (invDet * (rc->dirY * spriteX - rc->dirX * spriteY));
+		double transformY = (invDet * (-rc->planeY * spriteX + rc->planeX * spriteY)); //this is actually the depth inside the screen, that what Z is in 3D
+
+		int spriteScreenX = (int)((screenWidth / 2) * (1 + transformX / transformY));
+
+		//calculate height of the sprite on screen
+		int spriteHeight = abs((int)(screenHeight / (transformY))); //using 'transformY' instead of the real distance prevents fisheye
+		//calculate lowest and highest pixel to fill in current stripe
+		int drawStartY = -spriteHeight / 2 + screenHeight / 2;
+		if(drawStartY < 0) drawStartY = 0;
+		int drawEndY = spriteHeight / 2 + screenHeight / 2;
+		if(drawEndY >= screenHeight) drawEndY = screenHeight - 1;
+
+		//calculate width of the sprite
+		int spriteWidth = abs( (int) (screenHeight / (transformY)));
+		int drawStartX = -spriteWidth / 2 + spriteScreenX;
+		if(drawStartX < 0) drawStartX = 0;
+		int drawEndX = spriteWidth / 2 + spriteScreenX;
+		if(drawEndX >= screenWidth) drawEndX = screenWidth - 1;
+
+		for(int stripe = drawStartX; stripe < drawEndX; stripe++)
+		{
+			int texX = (int)(256 * (stripe - (-spriteWidth / 2 + spriteScreenX)) * rc->txtn[4]->img_width / spriteWidth) / 256;
+			//the conditions in the if are:
+			//1) it's in front of camera plane so you don't see things behind you
+			//2) it's on the screen (left)
+			//3) it's on the screen (right)
+			//4) ZBuffer, with perpendicular distance
+			if(transformY > 0 && stripe > 0 && stripe < screenWidth && transformY < zBuffer[stripe])
+				for(int y = drawStartY; y < drawEndY; y++) //for every pixel of the current stripe
+				{
+					int d = (y) * 256 - screenHeight * 128 + spriteHeight * 128;  //256 and 128 factors to avoid floats
+					int texY = ((d * rc->txtn[4]->img_height) / spriteHeight) / 256;
+					// long color = rc->txtn[4]->addr[rc->txtn[4]->img_height * texY + texX];
+					// rc->addr[(y * screenWidth + stripe)] = color;
+					// if((color & 0x00FFFFFF) != 0)
+					if (*(unsigned int*)get_pixel(rc->txtn[4], texX, texY) != 0)
+						my_mlx_pixel_put(rc, stripe, y, *(unsigned int*)get_pixel(rc->txtn[4], texX, texY));
+				}
+		}
+		i++;
 	}
 }
 
@@ -370,6 +474,7 @@ int		main(void)
 	rc.mlx = mlx_init();
     rc.win = mlx_new_window(rc.mlx, screenWidth, screenHeight, "RayCaster");
 	mlx_hook(rc.win, 2, 1L<<0, key_hook, &rc);
+	mlx_hook(rc.win, 17, 0, ft_close, &rc);
 	mlx_loop_hook(rc.mlx, key_hook, &rc);
 	rc.img = mlx_new_image(rc.mlx, screenWidth, screenHeight);
     rc.addr = mlx_get_data_addr(rc.img, &rc.bits_per_pixel, &rc.line_length, &rc.endian);

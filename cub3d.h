@@ -63,8 +63,9 @@ typedef struct  	s_rc {
 		double		wallX;
 		int			side;
 		int			sd;
-		int			sprX;
-		int			sprY;
+		int			sprindex;
+		int			sprX[100];
+		int			sprY[100];
         t_img       **txtn;
 }               	t_rc;
 
@@ -76,5 +77,7 @@ void			*wrmalloc(unsigned long size);
 void			wrdestroy(void);
 void			ft_lstadd_back(t_list **alst, t_list *new);
 void			ft_sprite(t_rc *rc);
+int				ft_close(int keycode, t_rc *rc);
+void			ft_spritedata(t_rc *rc);
 
 #endif
