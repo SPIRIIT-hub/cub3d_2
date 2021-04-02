@@ -1,7 +1,7 @@
-#include "cub3d.h"
+#include "headers/cub3d.h"
 
-#define mapWidth 24
-#define mapHeight 24
+#define mapWidth 14
+#define mapHeight 33
 #define screenWidth 1000
 #define screenHeight 1000
 #define moveSpeed 1
@@ -9,44 +9,44 @@
 
 double zBuffer[5000];
 
-int worldMap[mapWidth][mapHeight]=
-{
-  {1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1},
-  {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
-  {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
-  {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
-  {1,0,0,0,0,0,1,1,1,1,1,0,0,0,0,1,0,1,0,1,0,0,0,1},
-  {1,0,0,0,0,0,1,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,1},
-  {1,0,0,0,0,0,1,0,0,0,1,0,0,0,0,1,0,0,0,1,0,0,0,1},
-  {1,0,2,2,2,0,1,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,1},
-  {1,0,2,2,2,0,1,1,0,1,1,0,0,0,0,1,0,1,0,1,0,0,0,1},
-  {1,0,2,2,2,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
-  {1,0,2,2,2,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
-  {1,0,2,2,2,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
-  {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
-  {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
-  {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
-  {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
-  {1,1,1,1,1,1,1,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
-  {1,1,0,1,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
-  {1,1,0,0,0,0,1,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
-  {1,1,0,1,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
-  {1,1,0,1,1,1,1,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
-  {1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
-  {1,1,1,1,1,1,1,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
-  {1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1}
-};
+// int worldMap[mapWidth][mapHeight]=
+// {
+//   {1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1},
+//   {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
+//   {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
+//   {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
+//   {1,0,0,0,0,0,1,1,1,1,1,0,0,0,0,1,0,1,0,1,0,0,0,1},
+//   {1,0,0,0,0,0,1,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,1},
+//   {1,0,0,0,0,0,1,0,0,0,1,0,0,0,0,1,0,0,0,1,0,0,0,1},
+//   {1,0,2,2,2,0,1,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,1},
+//   {1,0,2,2,2,0,1,1,0,1,1,0,0,0,0,1,0,1,0,1,0,0,0,1},
+//   {1,0,2,2,2,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
+//   {1,0,2,2,2,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
+//   {1,0,2,2,2,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
+//   {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
+//   {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
+//   {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
+//   {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
+//   {1,1,1,1,1,1,1,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
+//   {1,1,0,1,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
+//   {1,1,0,0,0,0,1,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
+//   {1,1,0,1,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
+//   {1,1,0,1,1,1,1,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
+//   {1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
+//   {1,1,1,1,1,1,1,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
+//   {1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1}
+// };
 
 void			ft_clear(t_rc *rc)
 {
-	int x = screenHeight;
-	int y = screenWidth;
+	int x = rc->pars->Ry;
+	int y = rc->pars->Rx;
 
 	while (x--)
 	{
 		while (y--)
 			my_mlx_pixel_put(rc, y, x, 0);
-		y = screenWidth;
+		y = rc->pars->Rx;
 	}
 }
 
@@ -65,7 +65,7 @@ void            my_mlx_pixel_put(t_rc *data, int x, int y, int color)
 	*(unsigned int*)dst = color;
 }
 
-void	ft_verLine(int x, int drawstart, int drawend, int color, t_rc *rc)
+void	ft_verLine(int x, int drawstart, int drawend, t_rc *rc)
 {
 	int imgx;
 	int imgy;
@@ -84,13 +84,13 @@ void	ft_verLine(int x, int drawstart, int drawend, int color, t_rc *rc)
 	{
 		imgy = (int)(((rc->txtn[rc->side]->img_height - 1) / (double)len) * wle);
 		// printf("rc->wallX : %f\n", rc->wallX);
-		if(drawstart > 0 && !(drawstart >= screenHeight))
+		if(drawstart > 0 && !(drawstart >= rc->pars->Ry))
 			my_mlx_pixel_put(rc, x, drawstart, *(unsigned int*)get_pixel(rc->txtn[rc->sd], imgx, imgy));
 		wle++;
 		drawstart++;
 	}
 	wle = drawend;
-	while (wle < screenHeight)
+	while (wle < rc->pars->Ry)
 	{
 		my_mlx_pixel_put(rc, x, wle, 0x067802);
 		wle++;
@@ -130,16 +130,16 @@ int             key_hook(int keycode, t_rc *rc)
 	}
 	if (keycode == KEY_W)
     {
-      if(worldMap[(int)(rc->posX + rc->dirX * moveSpeed)][(int)(rc->posY)] != 1) rc->posX += rc->dirX * moveSpeed;
-      if(worldMap[(int)(rc->posX)][(int)(rc->posY + rc->dirY * moveSpeed)] != 1) rc->posY += rc->dirY * moveSpeed;
+      if(rc->pars->map[(int)(rc->posX + rc->dirX * moveSpeed)][(int)(rc->posY)] != '1') rc->posX += rc->dirX * moveSpeed;
+      if(rc->pars->map[(int)(rc->posX)][(int)(rc->posY + rc->dirY * moveSpeed)] != '1') rc->posY += rc->dirY * moveSpeed;
 	  ft_clear(rc);
 	  ft_Raycaster(rc);
     }
     //move backwards if no wall behind you
     if (keycode == KEY_S)
     {
-      if(worldMap[(int)(rc->posX - rc->dirX * moveSpeed)][(int)(rc->posY)] != 1) rc->posX -= rc->dirX * moveSpeed;
-      if(worldMap[(int)(rc->posX)][(int)(rc->posY - rc->dirY * moveSpeed)] != 1) rc->posY -= rc->dirY * moveSpeed;
+      if(rc->pars->map[(int)(rc->posX - rc->dirX * moveSpeed)][(int)(rc->posY)] != '1') rc->posX -= rc->dirX * moveSpeed;
+      if(rc->pars->map[(int)(rc->posX)][(int)(rc->posY - rc->dirY * moveSpeed)] != '1') rc->posY -= rc->dirY * moveSpeed;
 	  ft_clear(rc);
 	  ft_Raycaster(rc);
     }
@@ -198,10 +198,10 @@ void	ft_Raycaster(t_rc *rc)
 {
 	int x = 0;
 	rc->sprindex = -1;
-	for(int x = 0; x < screenWidth; x++)
+	for(int x = 0; x < rc->pars->Rx; x++)
     {
 		//calculate ray position and direction
-		rc->cameraX = 2 * x / (double)(screenWidth) - 1; //x-coordinate in camera space
+		rc->cameraX = 2 * x / (double)(rc->pars->Rx) - 1; //x-coordinate in camera space
 		rc->rayDirX = rc->dirX + rc->planeX * rc->cameraX;
 		rc->rayDirY = rc->dirY + rc->planeY * rc->cameraX;
 		//which box of the map we're in
@@ -280,33 +280,39 @@ void	ft_Raycaster(t_rc *rc)
 			// 		rc->sprY[rc->sprindex + 1] = 0;
 			// 	}
 			// }
-			
-			if (worldMap[mapX][mapY] == 1) hit = 1;
+			// int u = 0;
+			// while (rc->pars->map[u])
+			// {
+			// 	printf("%s\n", rc->pars->map[u]);
+			// 	u++;
+			// }
+			// printf("%d\n", mapX);
+			if (rc->pars->map[mapX][mapY] == '1') hit = 1;
 		}
 		
 		if (rc->side == 0)	perpWallDist = (mapX - rc->posX + (1 - stepX) / 2) / rc->rayDirX;
 		else				perpWallDist = (mapY - rc->posY + (1 - stepY) / 2) / rc->rayDirY;
-		int lineHeight = (int)(screenHeight / perpWallDist);
+		int lineHeight = (int)(rc->pars->Ry / perpWallDist);
 
 		//calculate lowest and highest pixel to fill in current stripe
-		int drawStart = -lineHeight / 2 + screenHeight / 2;
+		int drawStart = -lineHeight / 2 + rc->pars->Ry / 2;
 		// if(drawStart < 0)drawStart = 0;
-		int drawEnd = lineHeight / 2 + screenHeight / 2;
+		int drawEnd = lineHeight / 2 + rc->pars->Ry / 2;
 		// if(drawEnd >= screenHeight)drawEnd = screenHeight - 1;
 
-		int color;
-		// printf("worldMap[mapX][mapY] : %d\n", worldMap[mapX][mapY]);
-		switch(worldMap[mapX][mapY])
-		{
-			case 1:  color = 0xFF2D00; break; //red
-			case 2:  color = 0x00911F; break; //green
-			case 3:  color = 0x00B9FF; break; //blue
-			case 4:  color = 0xFFFFFF; break; //white
-			default: color = 0xFBFF00; break; //yellow
-		}
+		// int color;
+		// // printf("worldMap[mapX][mapY] : %d\n", worldMap[mapX][mapY]);
+		// switch(rc->pars->map[mapX][mapY])
+		// {
+		// 	case 1:  color = 0xFF2D00; break; //red
+		// 	case 2:  color = 0x00911F; break; //green
+		// 	case 3:  color = 0x00B9FF; break; //blue
+		// 	case 4:  color = 0xFFFFFF; break; //white
+		// 	default: color = 0xFBFF00; break; //yellow
+		// }
 
 		//give x and y sides different brightness
-		if (rc->side == 1) {color = color / 2;}
+		// if (rc->side == 1) {color = color / 2;}
 
 		// printf("here %f %f\n", rayDirY, rayDirX);
 		// printf("ici : %f %f\n", deltaDistX, deltaDistY);
@@ -325,7 +331,7 @@ void	ft_Raycaster(t_rc *rc)
 				rc->sd = 2;
 		}
 		zBuffer[x] = perpWallDist;
-		ft_verLine(x, drawStart, drawEnd, color, rc);
+		ft_verLine(x, drawStart, drawEnd, rc);
 		// printf("here : %f %f\n", rc->sideDistX, rc->sideDistY);
 	}
 	ft_spritedata(rc);
@@ -338,11 +344,11 @@ void	ft_spritedata(t_rc *rc)
 	int i = 0;
 	int j = 0;
 
-	while (i < mapWidth)
+	while (i < rc->pars->hmap)
 	{
-		while (j < mapHeight)
+		while (j < rc->pars->lenmax)
 		{
-			if (worldMap[i][j] == 2)
+			if (rc->pars->map[i][j] == '2')
 			{
 				rc->sprindex++;
 				rc->sprX[rc->sprindex] = i;
@@ -362,7 +368,7 @@ void	ft_sprite(t_rc *rc)
 	int i = 0;
 	int order[rc->sprindex + 1];
 
-	double spriteDistance[100];
+	double spriteDistance[10000];
 	while (i <= rc->sprindex)
 	{
 		spriteDistance[i] = ((rc->posX - rc->sprX[i]) * (rc->posX - rc->sprX[i]) + (rc->posY - rc->sprY[i]) * (rc->posY - rc->sprY[i]));
@@ -413,22 +419,22 @@ void	ft_sprite(t_rc *rc)
 		double transformX = (invDet * (rc->dirY * spriteX - rc->dirX * spriteY));
 		double transformY = (invDet * (-rc->planeY * spriteX + rc->planeX * spriteY)); //this is actually the depth inside the screen, that what Z is in 3D
 
-		int spriteScreenX = (int)((screenWidth / 2) * (1 + transformX / transformY));
+		int spriteScreenX = (int)((rc->pars->Rx / 2) * (1 + transformX / transformY));
 
 		//calculate height of the sprite on screen
-		int spriteHeight = abs((int)(screenHeight / (transformY))); //using 'transformY' instead of the real distance prevents fisheye
+		int spriteHeight = abs((int)(rc->pars->Ry / (transformY))); //using 'transformY' instead of the real distance prevents fisheye
 		//calculate lowest and highest pixel to fill in current stripe
-		int drawStartY = -spriteHeight / 2 + screenHeight / 2;
+		int drawStartY = -spriteHeight / 2 + rc->pars->Ry / 2;
 		if(drawStartY < 0) drawStartY = 0;
-		int drawEndY = spriteHeight / 2 + screenHeight / 2;
-		if(drawEndY >= screenHeight) drawEndY = screenHeight - 1;
+		int drawEndY = spriteHeight / 2 + rc->pars->Ry / 2;
+		if(drawEndY >= rc->pars->Ry) drawEndY = rc->pars->Ry - 1;
 
 		//calculate width of the sprite
-		int spriteWidth = abs( (int) (screenHeight / (transformY)));
+		int spriteWidth = abs( (int) (rc->pars->Ry / (transformY)));
 		int drawStartX = -spriteWidth / 2 + spriteScreenX;
 		if(drawStartX < 0) drawStartX = 0;
 		int drawEndX = spriteWidth / 2 + spriteScreenX;
-		if(drawEndX >= screenWidth) drawEndX = screenWidth - 1;
+		if(drawEndX >= rc->pars->Rx) drawEndX = rc->pars->Rx - 1;
 
 		for(int stripe = drawStartX; stripe < drawEndX; stripe++)
 		{
@@ -438,10 +444,10 @@ void	ft_sprite(t_rc *rc)
 			//2) it's on the screen (left)
 			//3) it's on the screen (right)
 			//4) ZBuffer, with perpendicular distance
-			if(transformY > 0 && stripe > 0 && stripe < screenWidth && transformY < zBuffer[stripe])
+			if(transformY > 0 && stripe > 0 && stripe < rc->pars->Rx && transformY < zBuffer[stripe])
 				for(int y = drawStartY; y < drawEndY; y++) //for every pixel of the current stripe
 				{
-					int d = (y) * 256 - screenHeight * 128 + spriteHeight * 128;  //256 and 128 factors to avoid floats
+					int d = (y) * 256 - rc->pars->Ry * 128 + spriteHeight * 128;  //256 and 128 factors to avoid floats
 					int texY = ((d * rc->txtn[4]->img_height) / spriteHeight) / 256;
 					// long color = rc->txtn[4]->addr[rc->txtn[4]->img_height * texY + texX];
 					// rc->addr[(y * screenWidth + stripe)] = color;
@@ -454,7 +460,7 @@ void	ft_sprite(t_rc *rc)
 	}
 }
 
-int		main(void)
+int		main(int argc, char **argv)
 {
 	t_rc rc;
 	rc.posX = 3;
@@ -464,49 +470,82 @@ int		main(void)
   	rc.planeX = 0;
 	rc.planeY = 0.66; //the 2d raycaster version of camera plane
 	rc.txtn = wrmalloc(sizeof(t_img *) * 5);
+	char **map;
+
+	if (argc <= 0 || (rc.pars = ismapvalid(argv, argc)) == NULL)
+	{
+		printf("Error, map invalid\n");
+		return (0);
+	}
+
+	rc.posX = rc.pars->yplayer;
+	rc.posY = rc.pars->xplayer;
 
 	int i = 0;
+	int j = 0;
+
+	i = 0;
+	while (rc.pars->map[i])
+	{
+		j = 0;
+		while (rc.pars->map[i][j])
+		{
+			printf("%c", rc.pars->map[i][j]);
+			j++;
+		}
+		printf("\n");
+		i++;
+	}
+
+	while (rc.pars->map[i] != NULL)
+	{
+		i++;
+	}
+	rc.pars->hmap = i;
+	printf("width %d\nheight %d\n", rc.pars->Rx, rc.pars->Ry);
+	i = 0;
+	// exit(0);
 	while (i < 5)
 	{
 		rc.txtn[i] = wrmalloc(sizeof(t_img));
 		i++;
 	}
 	rc.mlx = mlx_init();
-    rc.win = mlx_new_window(rc.mlx, screenWidth, screenHeight, "RayCaster");
+    rc.win = mlx_new_window(rc.mlx, rc.pars->Rx, rc.pars->Ry, "RayCaster");
 	mlx_hook(rc.win, 2, 1L<<0, key_hook, &rc);
 	mlx_hook(rc.win, 17, 0, ft_close, &rc);
 	mlx_loop_hook(rc.mlx, key_hook, &rc);
-	rc.img = mlx_new_image(rc.mlx, screenWidth, screenHeight);
+	rc.img = mlx_new_image(rc.mlx, rc.pars->Rx, rc.pars->Ry);
     rc.addr = mlx_get_data_addr(rc.img, &rc.bits_per_pixel, &rc.line_length, &rc.endian);
-	if (!(rc.txtn[0]->img = mlx_png_file_to_image(rc.mlx, "./mossy.png", &rc.txtn[0]->img_width, &rc.txtn[0]->img_height)))
+	if (!(rc.txtn[0]->img = mlx_png_file_to_image(rc.mlx, "./textures/mossy.png", &rc.txtn[0]->img_width, &rc.txtn[0]->img_height)))
 	{
 		printf("Error, img not found");
 		return (0);
 	}
 	rc.txtn[0]->addr = mlx_get_data_addr(rc.txtn[0]->img, &rc.txtn[0]->bits_per_pixel, &rc.txtn[0]->line_length, &rc.txtn[0]->endian);
 
-	if (!(rc.txtn[1]->img = mlx_png_file_to_image(rc.mlx, "./purplestone.png", &rc.txtn[1]->img_width, &rc.txtn[1]->img_height)))
+	if (!(rc.txtn[1]->img = mlx_png_file_to_image(rc.mlx, "./textures/purplestone.png", &rc.txtn[1]->img_width, &rc.txtn[1]->img_height)))
 	{
 		printf("Error, img not found");
 		return (0);
 	}
 	rc.txtn[1]->addr = mlx_get_data_addr(rc.txtn[1]->img, &rc.txtn[1]->bits_per_pixel, &rc.txtn[1]->line_length, &rc.txtn[1]->endian);
 
-	if (!(rc.txtn[2]->img = mlx_png_file_to_image(rc.mlx, "./redbrick.png", &rc.txtn[2]->img_width, &rc.txtn[2]->img_height)))
+	if (!(rc.txtn[2]->img = mlx_png_file_to_image(rc.mlx, "./textures/redbrick.png", &rc.txtn[2]->img_width, &rc.txtn[2]->img_height)))
 	{
 		printf("Error, img not found");
 		return (0);
 	}
 	rc.txtn[2]->addr = mlx_get_data_addr(rc.txtn[2]->img, &rc.txtn[2]->bits_per_pixel, &rc.txtn[2]->line_length, &rc.txtn[2]->endian);
 
-	if (!(rc.txtn[3]->img = mlx_png_file_to_image(rc.mlx, "./greystone.png", &rc.txtn[3]->img_width, &rc.txtn[3]->img_height)))
+	if (!(rc.txtn[3]->img = mlx_png_file_to_image(rc.mlx, "./textures/greystone.png", &rc.txtn[3]->img_width, &rc.txtn[3]->img_height)))
 	{
 		printf("Error, img not found");
 		return (0);
 	}
 	rc.txtn[3]->addr = mlx_get_data_addr(rc.txtn[3]->img, &rc.txtn[3]->bits_per_pixel, &rc.txtn[3]->line_length, &rc.txtn[3]->endian);
 
-	if (!(rc.txtn[4]->img = mlx_png_file_to_image(rc.mlx, "./barrel.png", &rc.txtn[4]->img_width, &rc.txtn[4]->img_height)))
+	if (!(rc.txtn[4]->img = mlx_png_file_to_image(rc.mlx, "./textures/barrel.png", &rc.txtn[4]->img_width, &rc.txtn[4]->img_height)))
 	{
 		printf("Error, img not found");
 		return (0);
