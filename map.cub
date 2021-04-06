@@ -1,19 +1,19 @@
-R 1080 720
-NO ./tx tx/path_to_the_north_texture
-SO ./path_to_the_south_texture
-WE ./path_to_the_west_texture
-EA ./path_to_the_east_texture
-S ./path_to_the_sprite_texture
-F 254,100,0
-C 225,30,0
+R 1920 1024
+NO ./textures/mossy.png
+SO ./textures/purplestone.png
+WE ./textures/redbrick.png
+EA ./textures/greystone.png
+S  ./textures/barrel.png
+F 6,120,2
+C 0,141,255
 
 11111111111111
-12222222222221
-12222222222221
-12222222222221
-12222222222221
-12222222222221
-122222W2222221
-12222222222221
-12222222222221
+10000000000001
+10000000000001
+10000000000001
+100000W0000001
+10000000000001
+10000000000001
+10000000000001
+10000000000001
 11111111111111

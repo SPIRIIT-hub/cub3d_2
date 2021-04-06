@@ -6,7 +6,7 @@
 /*   By: bmoulin <bmoulin@42lyon.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/15 14:25:41 by efarin            #+#    #+#             */
-/*   Updated: 2021/04/02 08:36:04 by bmoulin          ###   ########lyon.fr   */
+/*   Updated: 2021/04/06 11:59:00 by bmoulin          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,9 +69,15 @@ int		checkplayerposition(char **tab, t_struct *mstruct)
 {
 	int	i;
 	int	j;
+	int k;
 
+	k = 0;
+	while (tab[k])
+		k++;
 	i = mstruct->yplayer;
 	j = mstruct->xplayer;
+	if (i == k - 1|| i == 0 || j == 0 || j == mstruct->lenmax - 1)
+		return (0);
 	return (checkspaces(tab, mstruct, i, j));
 }
 

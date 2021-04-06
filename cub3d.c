@@ -76,7 +76,8 @@ void	ft_verLine(int x, int drawstart, int drawend, t_rc *rc)
 	imgy = (int)(((rc->txtn[rc->side]->img_height - 1) / (double)len) * wle);
 	while (wle < drawstart)
 	{
-		my_mlx_pixel_put(rc, x, wle, 0x008DFF);
+		// my_mlx_pixel_put(rc, x, wle, 0x008DFF);
+		my_mlx_pixel_put(rc, x, wle, ((rc->pars->C_R << 16) | ((rc->pars->C_G << 8) | rc->pars->C_B)));
 		wle++;
 	}
 	wle = 0;
@@ -92,7 +93,8 @@ void	ft_verLine(int x, int drawstart, int drawend, t_rc *rc)
 	wle = drawend;
 	while (wle < rc->pars->Ry)
 	{
-		my_mlx_pixel_put(rc, x, wle, 0x067802);
+		// my_mlx_pixel_put(rc, x, wle, 0x067802);
+		my_mlx_pixel_put(rc, x, wle, ((rc->pars->F_R << 16) | ((rc->pars->F_G << 8) | rc->pars->F_B)));
 		wle++;
 	}
 }
@@ -478,12 +480,16 @@ int		main(int argc, char **argv)
 		return (0);
 	}
 
-	rc.posX = rc.pars->yplayer;
-	rc.posY = rc.pars->xplayer;
+	if (rc.pars->Rx > 5120 / 2)
+		rc.pars->Rx = 5120 / 2;
+	if (rc.pars->Ry > 2880 / 2)
+		rc.pars->Ry = 2880 / 2;
+
+	rc.posX = rc.pars->yplayer + 0.5;
+	rc.posY = rc.pars->xplayer + 0.5;
 
 	int i = 0;
 	int j = 0;
-
 	i = 0;
 	while (rc.pars->map[i])
 	{
@@ -517,35 +523,35 @@ int		main(int argc, char **argv)
 	mlx_loop_hook(rc.mlx, key_hook, &rc);
 	rc.img = mlx_new_image(rc.mlx, rc.pars->Rx, rc.pars->Ry);
     rc.addr = mlx_get_data_addr(rc.img, &rc.bits_per_pixel, &rc.line_length, &rc.endian);
-	if (!(rc.txtn[0]->img = mlx_png_file_to_image(rc.mlx, "./textures/mossy.png", &rc.txtn[0]->img_width, &rc.txtn[0]->img_height)))
+	if (!(rc.txtn[0]->img = mlx_png_file_to_image(rc.mlx, rc.pars->pathtoNO, &rc.txtn[0]->img_width, &rc.txtn[0]->img_height)))
 	{
 		printf("Error, img not found");
 		return (0);
 	}
 	rc.txtn[0]->addr = mlx_get_data_addr(rc.txtn[0]->img, &rc.txtn[0]->bits_per_pixel, &rc.txtn[0]->line_length, &rc.txtn[0]->endian);
 
-	if (!(rc.txtn[1]->img = mlx_png_file_to_image(rc.mlx, "./textures/purplestone.png", &rc.txtn[1]->img_width, &rc.txtn[1]->img_height)))
+	if (!(rc.txtn[1]->img = mlx_png_file_to_image(rc.mlx, rc.pars->pathtoEA, &rc.txtn[1]->img_width, &rc.txtn[1]->img_height)))
 	{
 		printf("Error, img not found");
 		return (0);
 	}
 	rc.txtn[1]->addr = mlx_get_data_addr(rc.txtn[1]->img, &rc.txtn[1]->bits_per_pixel, &rc.txtn[1]->line_length, &rc.txtn[1]->endian);
 
-	if (!(rc.txtn[2]->img = mlx_png_file_to_image(rc.mlx, "./textures/redbrick.png", &rc.txtn[2]->img_width, &rc.txtn[2]->img_height)))
+	if (!(rc.txtn[2]->img = mlx_png_file_to_image(rc.mlx, rc.pars->pathtoWE, &rc.txtn[2]->img_width, &rc.txtn[2]->img_height)))
 	{
 		printf("Error, img not found");
 		return (0);
 	}
 	rc.txtn[2]->addr = mlx_get_data_addr(rc.txtn[2]->img, &rc.txtn[2]->bits_per_pixel, &rc.txtn[2]->line_length, &rc.txtn[2]->endian);
 
-	if (!(rc.txtn[3]->img = mlx_png_file_to_image(rc.mlx, "./textures/greystone.png", &rc.txtn[3]->img_width, &rc.txtn[3]->img_height)))
+	if (!(rc.txtn[3]->img = mlx_png_file_to_image(rc.mlx, rc.pars->pathtoSO, &rc.txtn[3]->img_width, &rc.txtn[3]->img_height)))
 	{
 		printf("Error, img not found");
 		return (0);
 	}
 	rc.txtn[3]->addr = mlx_get_data_addr(rc.txtn[3]->img, &rc.txtn[3]->bits_per_pixel, &rc.txtn[3]->line_length, &rc.txtn[3]->endian);
 
-	if (!(rc.txtn[4]->img = mlx_png_file_to_image(rc.mlx, "./textures/barrel.png", &rc.txtn[4]->img_width, &rc.txtn[4]->img_height)))
+	if (!(rc.txtn[4]->img = mlx_png_file_to_image(rc.mlx, rc.pars->pathtoS, &rc.txtn[4]->img_width, &rc.txtn[4]->img_height)))
 	{
 		printf("Error, img not found");
 		return (0);
