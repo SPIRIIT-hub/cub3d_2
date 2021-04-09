@@ -21,12 +21,41 @@
 #define KEY_RIGHT 124
 #define KEY_ESC 53
 #define PI 3.14159265359
+#define moveSpeed 1
+#define rotSpeed 0.0872665
 
 typedef struct		s_list
 {
       void			*content;
       struct s_list	*next;
 }					t_list;
+
+typedef struct		s_spr
+{
+      int			i;
+      int 			order[10000];
+	  double		spriteDistance[10000];
+	  double		tmp;
+	  int			tmp1;
+	  int			j;
+	  double		spriteX;
+	  double		spriteY;
+	  double		invDet;
+	  double		transformX;
+	  double		transformY;
+	  int			spriteScreenX;
+	  int			spriteHeight;
+	  int			drawStartY;
+	  int			drawEndY;
+	  int			spriteWidth;
+	  int			drawStartX;
+	  int			drawEndX;
+	  int			stripe;
+	  int			texX;
+	  int			d;
+	  int			y;
+	  int			texY;
+}					t_spr;
 
 typedef struct  	s_img {
 		int    	bits_per_pixel;
@@ -66,6 +95,7 @@ typedef struct	s_struct
 }				t_struct;
 
 typedef struct  	s_rc {
+		double zBuffer[5000];
 		int			save;
         void    	*mlx;
         void    	*win;
@@ -95,7 +125,12 @@ typedef struct  	s_rc {
 		int			sprY[100000];
         t_img       **txtn;
 		t_struct	*pars;
+		t_spr		spr;
 }               	t_rc;
+
+char	*get_pixel(t_img *data, int x, int y);
+void	init_sort(t_rc *rc);
+void	ft_sortsprites(t_rc *rc);
 
 void			save_bmp(const char *filename, t_rc *rc);
 void			write_img(int fd, t_rc *rc);

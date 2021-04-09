@@ -10,7 +10,10 @@ SRC =	cub3d.c \
 		parsing/libftstuff.c \
 		parsing/structstuff.c \
 		parsing/whatsthemap.c \
-		save/save.c
+		save/save.c \
+		hook/hook.c \
+		sprites/sprites.c \
+		sprites/spr_sort.c
 
 OBJ = ${SRC:.c=.o}
 
