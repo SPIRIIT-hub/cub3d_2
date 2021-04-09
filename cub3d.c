@@ -479,10 +479,7 @@ int		main(int argc, char **argv)
 	t_rc rc;
 	rc.posX = 3;
 	rc.posY = 3;  //x and y start position
-  	rc.dirX = 1;
-	rc.dirY = 0; //initial direction vector
-  	rc.planeX = 0;
-	rc.planeY = -0.66; //the 2d raycaster version of camera plane
+  	
 	rc.txtn = wrmalloc(sizeof(t_img *) * 5);
 	char **map;
 
@@ -491,6 +488,39 @@ int		main(int argc, char **argv)
 		printf("Error, map invalid\n");
 		return (0);
 	}
+	// printf("pos %c\n", rc.pars->position);
+	if (rc.pars->position == 'S')
+	{
+		rc.dirX = 1;
+		rc.dirY = 0; //initial direction vector
+		rc.planeX = 0;
+		rc.planeY = -0.66; //the 2d raycaster version of camera plane
+	}
+	else if (rc.pars->position == 'N')
+	{
+		rc.dirX = -1;
+		rc.dirY = 0; //initial direction vector
+		rc.planeX = 0;
+		rc.planeY = 0.66; //the 2d raycaster version of camera plane
+	}
+	else if (rc.pars->position == 'E')
+	{
+		rc.dirX = 0;
+		rc.dirY = 1; //initial direction vector
+		rc.planeX = 0.66;
+		rc.planeY = 0; //the 2d raycaster version of camera plane
+	}
+	else
+	{
+		rc.dirX = 0;
+		rc.dirY = -1; //initial direction vector
+		rc.planeX = -0.66;
+		rc.planeY = 0; //the 2d raycaster version of camera plane
+	}
+	
+	// rc.planeX = 0;
+	// rc.planeY = -0.66; //the 2d raycaster version of camera plane
+
 
 	if (argc == 3 && argv[2][0] == '-' && argv[2][1] == '-' && argv[2][2] == 's' && argv[2][3] == 'a' && argv[2][4] == 'v' && argv[2][5] == 'e')
 		rc.save = 1;
@@ -499,7 +529,7 @@ int		main(int argc, char **argv)
 		rc.save = 0;
 	}
 	
-	printf("SAVE : %d\n", rc.save);
+	// printf("SAVE : %d\n", rc.save);
 
 	if (rc.pars->Rx > 5120 / 2)
 		rc.pars->Rx = 5120 / 2;
@@ -544,34 +574,22 @@ int		main(int argc, char **argv)
 	mlx_loop_hook(rc.mlx, key_hook, &rc);
 	rc.img = mlx_new_image(rc.mlx, rc.pars->Rx, rc.pars->Ry);
     rc.addr = mlx_get_data_addr(rc.img, &rc.bits_per_pixel, &rc.line_length, &rc.endian);
-	if (rc.pars->pathtoNO[ft_strlen(rc.pars->pathtoNO) - 1] == 'g')
-	{
-		if (!(rc.txtn[0]->img = mlx_png_file_to_image(rc.mlx, rc.pars->pathtoNO, &rc.txtn[0]->img_width, &rc.txtn[0]->img_height)))
-		{
-			printf("Error, img not found");
-			return (0);
-		}
-		rc.txtn[0]->addr = mlx_get_data_addr(rc.txtn[0]->img, &rc.txtn[0]->bits_per_pixel, &rc.txtn[0]->line_length, &rc.txtn[0]->endian);
-	}
-	else
-	{
-		if (!(rc.txtn[0]->img = mlx_xpm_file_to_image(rc.mlx, rc.pars->pathtoNO, &rc.txtn[0]->img_width, &rc.txtn[0]->img_height)))
-		{
-			printf("Error, img not found");
-			return (0);
-		}
-		rc.txtn[0]->addr = mlx_get_data_addr(rc.txtn[0]->img, &rc.txtn[0]->bits_per_pixel, &rc.txtn[0]->line_length, &rc.txtn[0]->endian);
-	}
-	
 
-	if (!(rc.txtn[1]->img = mlx_png_file_to_image(rc.mlx, rc.pars->pathtoEA, &rc.txtn[1]->img_width, &rc.txtn[1]->img_height)))
+	if (!(rc.txtn[0]->img = mlx_png_file_to_image(rc.mlx, rc.pars->pathtoNO, &rc.txtn[0]->img_width, &rc.txtn[0]->img_height)))
+	{
+		printf("Error, img not found");
+		return (0);
+	}
+	rc.txtn[0]->addr = mlx_get_data_addr(rc.txtn[0]->img, &rc.txtn[0]->bits_per_pixel, &rc.txtn[0]->line_length, &rc.txtn[0]->endian);
+	
+	if (!(rc.txtn[1]->img = mlx_png_file_to_image(rc.mlx, rc.pars->pathtoWE, &rc.txtn[1]->img_width, &rc.txtn[1]->img_height)))
 	{
 		printf("Error, img not found");
 		return (0);
 	}
 	rc.txtn[1]->addr = mlx_get_data_addr(rc.txtn[1]->img, &rc.txtn[1]->bits_per_pixel, &rc.txtn[1]->line_length, &rc.txtn[1]->endian);
 
-	if (!(rc.txtn[2]->img = mlx_png_file_to_image(rc.mlx, rc.pars->pathtoWE, &rc.txtn[2]->img_width, &rc.txtn[2]->img_height)))
+	if (!(rc.txtn[2]->img = mlx_png_file_to_image(rc.mlx, rc.pars->pathtoEA, &rc.txtn[2]->img_width, &rc.txtn[2]->img_height)))
 	{
 		printf("Error, img not found");
 		return (0);

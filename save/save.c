@@ -48,12 +48,12 @@ void			write_img(int fd, t_rc *rc)
 {
 	int		x;
 	int		y;
-	x = -1;
-	while (++x < rc->pars->Rx)
+	x = rc->pars->Ry;
+	while (x-- > 0)
 	{
 		y = -1;
-		while (++y < rc->pars->Ry)
-			write(fd, rc->addr + (y * rc->line_length + x * (rc->bits_per_pixel / 8))\
+		while (++y < rc->pars->Rx)
+			write(fd, rc->addr + (x * rc->line_length + y * (rc->bits_per_pixel / 8))\
 			, rc->bits_per_pixel / 8);
 	}
 }
