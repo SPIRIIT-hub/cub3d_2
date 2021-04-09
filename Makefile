@@ -1,6 +1,8 @@
 NAME = cub3D
 
-SRC =	cub3d.c \
+SRC =	init/main.c \
+		init/init_mlx.c \
+		init/init_textures.c \
 		utils/ft_wrmalloc.c \
 		parsing/checkelements.c \
 		parsing/cub.c \
@@ -14,7 +16,8 @@ SRC =	cub3d.c \
 		hook/hook.c \
 		sprites/sprites.c \
 		sprites/spr_sort.c \
-		printer/printer.c
+		printer/printer.c \
+		raycasting/raycasting.c
 
 OBJ = ${SRC:.c=.o}
 

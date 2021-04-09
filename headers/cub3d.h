@@ -94,6 +94,20 @@ typedef struct	s_struct
 	char			**map;
 }				t_struct;
 
+typedef struct		s_rcd
+{
+    	int mapX;
+    	int mapY;
+		int sprite;
+		double perpWallDist;
+		int stepX;
+		int stepY;
+		int hit;
+		int lineHeight;
+		int drawStart;
+		int drawEnd;
+}					t_rcd;
+
 typedef struct  	s_rc {
 		int			imgx;
 		int			imgy;
@@ -130,7 +144,16 @@ typedef struct  	s_rc {
         t_img       **txtn;
 		t_struct	*pars;
 		t_spr		spr;
+		t_rcd		rcd;
 }               	t_rc;
+
+
+void	init_mlxdata(t_rc *rc);
+void	init_mlxntxt(t_rc *rc);
+
+void	load_txtNW(t_rc *rc);
+void	load_txtSE(t_rc *rc);
+void	load_txtS(t_rc *rc);
 
 void	prnt_txt(int x, int drawstart, int drawend, t_rc *rc);
 
