@@ -66,6 +66,7 @@ typedef struct	s_struct
 }				t_struct;
 
 typedef struct  	s_rc {
+		int			save;
         void    	*mlx;
         void    	*win;
 		void    	*img;
@@ -95,6 +96,11 @@ typedef struct  	s_rc {
         t_img       **txtn;
 		t_struct	*pars;
 }               	t_rc;
+
+void			save_bmp(const char *filename, t_rc *rc);
+void			write_img(int fd, t_rc *rc);
+unsigned char	*create_bitmap_info_header(t_rc *rc);
+unsigned char	*create_bitmap_file_header(int file_size);
 
 t_list			*ft_lstnew(void *content);
 void			ft_lstadd_back(t_list **alst, t_list *new);

@@ -6,7 +6,7 @@
 /*   By: bmoulin <bmoulin@42lyon.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/10 10:33:03 by efarin            #+#    #+#             */
-/*   Updated: 2021/04/02 09:55:07 by bmoulin          ###   ########lyon.fr   */
+/*   Updated: 2021/04/09 14:21:28 by bmoulin          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -187,7 +187,7 @@ t_struct	*ismapvalid(char **arv, int arc)
 	t_list			*lst;
 	char			**tab;
 	t_struct		*mstruct;
-
+	
 	if (!(mstruct = malloc(sizeof(t_struct))))
 		return (NULL);
 	structinit(mstruct);

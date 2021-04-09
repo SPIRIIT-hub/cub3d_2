@@ -9,7 +9,8 @@ SRC =	cub3d.c \
 		parsing/islinevalid.c \
 		parsing/libftstuff.c \
 		parsing/structstuff.c \
-		parsing/whatsthemap.c
+		parsing/whatsthemap.c \
+		save/save.c
 
 OBJ = ${SRC:.c=.o}
 

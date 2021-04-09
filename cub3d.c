@@ -71,9 +71,17 @@ void	ft_verLine(int x, int drawstart, int drawend, t_rc *rc)
 	int imgy;
 	int len = drawend - drawstart;
 	int wle = 0;
-	// printf("camera : %f\n", rc->planeX);
-	imgx = (int)(rc->txtn[rc->side]->img_width * (rc->wallX - (int)rc->wallX));
-	imgy = (int)(((rc->txtn[rc->side]->img_height - 1) / (double)len) * wle);
+	// printf("camera : %f\n", rc->planeX); (rc->txtn[rc->side]->img_height - 1) -
+	// if (x == 512)
+	// 	printf("side : %d\n", rc->sd);
+	if (rc->sd == 3 || rc->sd == 1)
+		imgx = (rc->txtn[rc->sd]->img_width - 1) -  ((int)(rc->txtn[rc->sd]->img_width * (rc->wallX - (int)rc->wallX)));
+	else
+	{
+		imgx = (int)(rc->txtn[rc->sd]->img_width * (rc->wallX - (int)rc->wallX));
+	}
+	
+	imgy = (int)(((rc->txtn[rc->sd]->img_height - 1) / (double)len) * wle);
 	while (wle < drawstart)
 	{
 		// my_mlx_pixel_put(rc, x, wle, 0x008DFF);
@@ -83,7 +91,7 @@ void	ft_verLine(int x, int drawstart, int drawend, t_rc *rc)
 	wle = 0;
 	while (wle < len)
 	{
-		imgy = (int)(((rc->txtn[rc->side]->img_height - 1) / (double)len) * wle);
+		imgy = (int)((((rc->txtn[rc->sd]->img_height - 1)) / (double)len) * wle);
 		// printf("rc->wallX : %f\n", rc->wallX);
 		if(drawstart > 0 && !(drawstart >= rc->pars->Ry))
 			my_mlx_pixel_put(rc, x, drawstart, *(unsigned int*)get_pixel(rc->txtn[rc->sd], imgx, imgy));
@@ -157,6 +165,7 @@ int             key_hook(int keycode, t_rc *rc)
       rc->planeY = oldPlaneX * sin(-rotSpeed) + rc->planeY * cos(-rotSpeed);
 	  ft_clear(rc);
 	  ft_Raycaster(rc);
+	//   printf("%f %f %f %f\n", rc->dirX, rc->dirY, rc->planeX, rc->planeY);
     }
     //rotate to the left
     if (keycode == KEY_A)
@@ -170,6 +179,7 @@ int             key_hook(int keycode, t_rc *rc)
       rc->planeY = oldPlaneX * sin(rotSpeed) + rc->planeY * cos(rotSpeed);
 	  ft_clear(rc);
 	  ft_Raycaster(rc);
+	//   printf("%f %f %f %f\n", rc->dirX, rc->dirY, rc->planeX, rc->planeY);
     }
 	return (0);
 }
@@ -338,6 +348,8 @@ void	ft_Raycaster(t_rc *rc)
 	}
 	ft_spritedata(rc);
 	ft_sprite(rc);
+	if (rc->save == 1)
+		save_bmp("save.bmp", rc);
 	mlx_put_image_to_window(rc->mlx, rc->win, rc->img, 0, 0);
 }
 
@@ -467,10 +479,10 @@ int		main(int argc, char **argv)
 	t_rc rc;
 	rc.posX = 3;
 	rc.posY = 3;  //x and y start position
-  	rc.dirX = -1;
+  	rc.dirX = 1;
 	rc.dirY = 0; //initial direction vector
   	rc.planeX = 0;
-	rc.planeY = 0.66; //the 2d raycaster version of camera plane
+	rc.planeY = -0.66; //the 2d raycaster version of camera plane
 	rc.txtn = wrmalloc(sizeof(t_img *) * 5);
 	char **map;
 
@@ -479,6 +491,15 @@ int		main(int argc, char **argv)
 		printf("Error, map invalid\n");
 		return (0);
 	}
+
+	if (argc == 3 && argv[2][0] == '-' && argv[2][1] == '-' && argv[2][2] == 's' && argv[2][3] == 'a' && argv[2][4] == 'v' && argv[2][5] == 'e')
+		rc.save = 1;
+	else
+	{
+		rc.save = 0;
+	}
+	
+	printf("SAVE : %d\n", rc.save);
 
 	if (rc.pars->Rx > 5120 / 2)
 		rc.pars->Rx = 5120 / 2;
@@ -523,12 +544,25 @@ int		main(int argc, char **argv)
 	mlx_loop_hook(rc.mlx, key_hook, &rc);
 	rc.img = mlx_new_image(rc.mlx, rc.pars->Rx, rc.pars->Ry);
     rc.addr = mlx_get_data_addr(rc.img, &rc.bits_per_pixel, &rc.line_length, &rc.endian);
-	if (!(rc.txtn[0]->img = mlx_png_file_to_image(rc.mlx, rc.pars->pathtoNO, &rc.txtn[0]->img_width, &rc.txtn[0]->img_height)))
+	if (rc.pars->pathtoNO[ft_strlen(rc.pars->pathtoNO) - 1] == 'g')
 	{
-		printf("Error, img not found");
-		return (0);
+		if (!(rc.txtn[0]->img = mlx_png_file_to_image(rc.mlx, rc.pars->pathtoNO, &rc.txtn[0]->img_width, &rc.txtn[0]->img_height)))
+		{
+			printf("Error, img not found");
+			return (0);
+		}
+		rc.txtn[0]->addr = mlx_get_data_addr(rc.txtn[0]->img, &rc.txtn[0]->bits_per_pixel, &rc.txtn[0]->line_length, &rc.txtn[0]->endian);
 	}
-	rc.txtn[0]->addr = mlx_get_data_addr(rc.txtn[0]->img, &rc.txtn[0]->bits_per_pixel, &rc.txtn[0]->line_length, &rc.txtn[0]->endian);
+	else
+	{
+		if (!(rc.txtn[0]->img = mlx_xpm_file_to_image(rc.mlx, rc.pars->pathtoNO, &rc.txtn[0]->img_width, &rc.txtn[0]->img_height)))
+		{
+			printf("Error, img not found");
+			return (0);
+		}
+		rc.txtn[0]->addr = mlx_get_data_addr(rc.txtn[0]->img, &rc.txtn[0]->bits_per_pixel, &rc.txtn[0]->line_length, &rc.txtn[0]->endian);
+	}
+	
 
 	if (!(rc.txtn[1]->img = mlx_png_file_to_image(rc.mlx, rc.pars->pathtoEA, &rc.txtn[1]->img_width, &rc.txtn[1]->img_height)))
 	{
@@ -559,6 +593,8 @@ int		main(int argc, char **argv)
 	rc.txtn[4]->addr = mlx_get_data_addr(rc.txtn[4]->img, &rc.txtn[4]->bits_per_pixel, &rc.txtn[4]->line_length, &rc.txtn[4]->endian);
 	
 	ft_Raycaster(&rc);
+	if (rc.save == 1)
+		save_bmp("save.bmp", &rc);
 	mlx_put_image_to_window(rc.mlx, rc.win, rc.img, 0, 0);
 	mlx_loop(rc.mlx);
 }

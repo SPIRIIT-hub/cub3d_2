@@ -1,4 +1,4 @@
-R 1920 1024
+R 1024 1024
 NO ./textures/mossy.png
 SO ./textures/purplestone.png
 WE ./textures/redbrick.png
