@@ -13,7 +13,8 @@ SRC =	cub3d.c \
 		save/save.c \
 		hook/hook.c \
 		sprites/sprites.c \
-		sprites/spr_sort.c
+		sprites/spr_sort.c \
+		printer/printer.c
 
 OBJ = ${SRC:.c=.o}
 

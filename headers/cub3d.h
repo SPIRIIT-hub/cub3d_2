@@ -95,7 +95,11 @@ typedef struct	s_struct
 }				t_struct;
 
 typedef struct  	s_rc {
-		double zBuffer[5000];
+		int			imgx;
+		int			imgy;
+		int			len;
+		int			wle;
+		double		zBuffer[5000];
 		int			save;
         void    	*mlx;
         void    	*win;
@@ -127,6 +131,11 @@ typedef struct  	s_rc {
 		t_struct	*pars;
 		t_spr		spr;
 }               	t_rc;
+
+void	prnt_txt(int x, int drawstart, int drawend, t_rc *rc);
+
+void	ft_verLine(int x, int drawstart, int drawend, t_rc *rc);
+void	my_mlx_pixel_put(t_rc *data, int x, int y, int color);
 
 char	*get_pixel(t_img *data, int x, int y);
 void	init_sort(t_rc *rc);

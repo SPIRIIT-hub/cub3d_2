@@ -1,55 +1,5 @@
 #include "headers/cub3d.h"
 
-char	*get_pixel(t_img *data, int x, int y)
-{
-	char    *dst;
-    dst = data->addr + (y * data->line_length + x * (data->bits_per_pixel / 8));
-	return (dst);
-}
-
-void            my_mlx_pixel_put(t_rc *data, int x, int y, int color)
-{
-    char    *dst;
-    dst = data->addr + (y * data->line_length + x * (data->bits_per_pixel / 8));
-	*(unsigned int*)dst = color;
-}
-
-void	ft_verLine(int x, int drawstart, int drawend, t_rc *rc)
-{
-	int imgx;
-	int imgy;
-	int len = drawend - drawstart;
-	int wle = 0;
-	if (rc->sd == 3 || rc->sd == 1)
-		imgx = (rc->txtn[rc->sd]->img_width - 1) -  ((int)(rc->txtn[rc->sd]->img_width * (rc->wallX - (int)rc->wallX)));
-	else
-	{
-		imgx = (int)(rc->txtn[rc->sd]->img_width * (rc->wallX - (int)rc->wallX));
-	}
-	
-	imgy = (int)(((rc->txtn[rc->sd]->img_height - 1) / (double)len) * wle);
-	while (wle < drawstart)
-	{
-		my_mlx_pixel_put(rc, x, wle, ((rc->pars->C_R << 16) | ((rc->pars->C_G << 8) | rc->pars->C_B)));
-		wle++;
-	}
-	wle = 0;
-	while (wle < len)
-	{
-		imgy = (int)((((rc->txtn[rc->sd]->img_height - 1)) / (double)len) * wle);
-		if(drawstart > 0 && !(drawstart >= rc->pars->Ry))
-			my_mlx_pixel_put(rc, x, drawstart, *(unsigned int*)get_pixel(rc->txtn[rc->sd], imgx, imgy));
-		wle++;
-		drawstart++;
-	}
-	wle = drawend;
-	while (wle < rc->pars->Ry)
-	{
-		my_mlx_pixel_put(rc, x, wle, ((rc->pars->F_R << 16) | ((rc->pars->F_G << 8) | rc->pars->F_B)));
-		wle++;
-	}
-}
-
 void	ft_spriteLine(int x, int drawstart, int drawend, int color, t_rc *rc)
 {
 	int imgx;
@@ -67,8 +17,6 @@ void	ft_spriteLine(int x, int drawstart, int drawend, int color, t_rc *rc)
 		drawstart++;
 	}
 }
-
-
 
 void	ft_Raycaster(t_rc *rc)
 {
