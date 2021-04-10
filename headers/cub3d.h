@@ -148,6 +148,9 @@ typedef struct  	s_rc {
 }               	t_rc;
 
 
+void	sky_color(char	**elem, char *line, t_struct *mstruct);
+void	floor_color(char **elem, char *line, t_struct *mstruct);
+
 void	init_mlxdata(t_rc *rc);
 void	init_mlxntxt(t_rc *rc);
 

@@ -6,39 +6,41 @@
 /*   By: bmoulin <bmoulin@42lyon.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/18 10:59:09 by efarin            #+#    #+#             */
-/*   Updated: 2021/04/02 08:35:25 by bmoulin          ###   ########lyon.fr   */
+/*   Updated: 2021/04/10 17:15:54 by bmoulin          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../headers/get_next_line.h"
 
+int	ret_free(char **line)
+{
+	free(*line);
+	return (-1);
+}
+
 int	get_next_line(int fd, char **line)
 {
-	int		i;
-	int		l;
-	int		r;
-	char	c;
-	char	*tmp;
+	t_gnl	gnl;
 
-	r = 0;
-	l = 1;
-	if (!(*line = malloc(l)))
+	gnl.l = 1;
+	*line = malloc(gnl.l);
+	if (!(*line))
 		return (-1);
 	(*line)[0] = 0;
-	while ((r = read(fd, &c, 1)) && l++ && c != '\n')
+	gnl.r = read(fd, &gnl.c, 1);
+	while ((gnl.r) && gnl.l++ && gnl.c != '\n')
 	{
-		if (!(tmp = malloc(l)))
-		{
-			free(*line);
-			return (-1);
-		}
-		i = -1;
-		while (++i < l - 2)
-			tmp[i] = (*line)[i];
-		tmp[i] = c;
-		tmp[i + 1] = 0;
+		gnl.tmp = malloc(gnl.l);
+		if (!(gnl.tmp))
+			ret_free(line);
+		gnl.i = -1;
+		while (++gnl.i < gnl.l - 2)
+			gnl.tmp[gnl.i] = (*line)[gnl.i];
+		gnl.tmp[gnl.i] = gnl.c;
+		gnl.tmp[gnl.i + 1] = 0;
 		free(*line);
-		*line = tmp;
+		*line = gnl.tmp;
+		gnl.r = read(fd, &gnl.c, 1);
 	}
-	return (r);
+	return (gnl.r);
 }

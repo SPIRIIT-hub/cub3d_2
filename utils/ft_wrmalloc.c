@@ -1,46 +1,25 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   ft_wrmalloc.c                                      :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: bmoulin <bmoulin@42lyon.fr>                +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/02/10 13:35:33 by bmoulin           #+#    #+#             */
-/*   Updated: 2021/04/01 14:53:33 by bmoulin          ###   ########lyon.fr   */
-/*                                                                            */
-/* ************************************************************************** */
-
-#include "headers/cub3d.h"
-
-/*
-**	Small wrapper for malloc purpose
-**	4 functions
-**	-wrgetter : protect list malloc from extern files
-**	-wrmalloc : create a malloc, return ptr of the malloc.
-**				fail to create malloc : destoy all malloc and return 0
-**	-wrfree : free a malloc, return 1.
-**				fail to find the element: return 0
-**	-wrdestroy : free all malloc created by wrmalloc
-*/
+#include "../headers/cub3d.h"
 
 static t_list	**wrgetter(void)
 {
-	static t_list *wrm;
+	static t_list	*wrm;
 
 	return (&wrm);
 }
 
-void			*wrmalloc(unsigned long size)
+void	*wrmalloc(unsigned long size)
 {
 	char	*buffer;
 	t_list	*new_elem;
 
-	if (!(buffer = malloc(size)))
+	buffer = malloc(size);
+	if (!(buffer))
 	{
 		wrdestroy();
 		return (0);
 	}
-	if (!(new_elem = malloc(sizeof(t_list))))
+	new_elem = malloc(sizeof(t_list));
+	if (!(new_elem))
 	{
 		free(buffer);
 		wrdestroy();
@@ -52,7 +31,7 @@ void			*wrmalloc(unsigned long size)
 	return (buffer);
 }
 
-int				wrfree(void *ptr)
+int	wrfree(void *ptr)
 {
 	t_list	*prev;
 	t_list	*current;
@@ -81,7 +60,7 @@ int				wrfree(void *ptr)
 	return (0);
 }
 
-void			wrdestroy(void)
+void	wrdestroy(void)
 {
 	t_list	*current;
 	t_list	*next;

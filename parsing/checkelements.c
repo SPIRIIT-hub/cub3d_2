@@ -1,15 +1,3 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   checkelements.c                                    :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: bmoulin <bmoulin@42lyon.fr>                +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/02/16 10:49:06 by efarin            #+#    #+#             */
-/*   Updated: 2021/04/02 08:35:07 by bmoulin          ###   ########lyon.fr   */
-/*                                                                            */
-/* ************************************************************************** */
-
 #include "../headers/cub3d.h"
 #include "../headers/get_next_line.h"
 
@@ -43,14 +31,16 @@ void	checkelemR(char *line, t_struct *mstruct)
 
 char	*checktheid(char *line, char a, char b)
 {
-	int		i;
-	int		start;
+	int	i;
+	int	start;
 
 	i = 0;
 	while (line[i] && line[i] == ' ')
 		i++;
-	if (line[i] && line[i] == a && (i = i + 1))
-		if (line[i] && line[i] == b && (i = i + 1))
+	if (line[i] && line[i] == a && ++i)
+	{
+		if (line[i] && line[i] == b && ++i)
+		{
 			if (line[i] && !(line[i] != ' ' && b != ' '))
 			{
 				start = i;
@@ -59,6 +49,8 @@ char	*checktheid(char *line, char a, char b)
 				if (i > start)
 					return (ft_strtrim(ft_substr(line, start, i), " "));
 			}
+		}
+	}
 	return (NULL);
 }
 
@@ -74,22 +66,17 @@ void	checkelemF(char *line, t_struct *mstruct)
 		return ;
 	while (line[i] && line[i] == ' ')
 		i++;
-	if (line[i] == 'F' && (i = i + 1))
-		if (line[i] == ' ' && (start = i))
+	if (line[i] == 'F' && ++i)
+	{
+		start = i;
+		if (line[i] == ' ')
 			while (line[i])
 				i++;
-			if (i > start)
-				elem = ft_split(ft_strtrim(ft_substr(line, start, i), " "), ',');
-			if (elem != NULL && !(i = 0))
-				while (elem[i] && elem[i] != 0)
-					i++;
-				if (i == 3)
-				{
-					mstruct->F_R = ft_atoi(elem[0]);
-					mstruct->F_G = ft_atoi(elem[1]);
-					mstruct->F_B = ft_atoi(elem[2]);
-				}
-	ft_free(elem, i);
+		if (i > start)
+			elem = ft_split(ft_strtrim(ft_substr(line, start, i), " "), ',');
+		i = 0;
+		floor_color(elem, line, mstruct);
+	}
 }
 
 void	checkelemC(char *line, t_struct *mstruct)
@@ -104,20 +91,15 @@ void	checkelemC(char *line, t_struct *mstruct)
 		return ;
 	while (line[i] && line[i] == ' ')
 		i++;
-	if (line[i] == 'C' && (i = i + 1))
-		if (line[i] == ' ' && (start = i))
+	if (line[i] == 'C' && ++i)
+	{
+		start = i;
+		if (line[i] == ' ')
 			while (line[i])
 				i++;
-			if (i > start)
-				elem = ft_split(ft_strtrim(ft_substr(line, start, i), " "), ',');
-			if (elem != NULL && !(i = 0))
-				while (elem[i] != 0)
-					i++;
-				if (i == 3)
-				{
-					mstruct->C_R = ft_atoi(elem[0]);
-					mstruct->C_G = ft_atoi(elem[1]);
-					mstruct->C_B = ft_atoi(elem[2]);
-				}
-	ft_free(elem, i);
+		if (i > start)
+			elem = ft_split(ft_strtrim(ft_substr(line, start, i), " "), ',');
+		i = 0;
+		sky_color(elem, line, mstruct);
+	}
 }

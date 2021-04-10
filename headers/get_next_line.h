@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line.h                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: efarin <marvin@42.fr>                      +#+  +:+       +#+        */
+/*   By: bmoulin <bmoulin@42lyon.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/18 11:00:20 by efarin            #+#    #+#             */
-/*   Updated: 2021/02/18 11:00:22 by efarin           ###   ########lyon.fr   */
+/*   Updated: 2021/04/10 17:11:49 by bmoulin          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,15 @@
 # include <unistd.h>
 # include <stdlib.h>
 # include <stdio.h>
+
+typedef struct		s_gnl
+{
+		int		i;
+		int		l;
+		int		r;
+		char	c;
+		char	*tmp;
+}					t_gnl;
 
 int get_next_line(int fd, char **line);
 

@@ -12,6 +12,7 @@ SRC =	init/main.c \
 		parsing/libftstuff.c \
 		parsing/structstuff.c \
 		parsing/whatsthemap.c \
+		parsing/skynfloorcolor.c \
 		save/save.c \
 		hook/hook.c \
 		sprites/sprites.c \

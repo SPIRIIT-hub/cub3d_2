@@ -1,11 +1,11 @@
-R 1920 1080
-NO ./textures/mossy.png
+R 1920    1080
+NO ./textures/mossy.png   
 SO ./textures/purplestone.png
 WE ./textures/redbrick.png
 EA ./textures/greystone.png
 S  ./textures/barrel.png
 F 6,120,2
-C 0,141,255
+C 1,141,255
 
 11111111111111
 10000000000001
