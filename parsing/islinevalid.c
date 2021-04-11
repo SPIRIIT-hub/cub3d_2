@@ -6,13 +6,13 @@
 /*   By: bmoulin <bmoulin@42lyon.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/18 11:21:06 by efarin            #+#    #+#             */
-/*   Updated: 2021/04/02 08:35:28 by bmoulin          ###   ########lyon.fr   */
+/*   Updated: 2021/04/10 18:26:23 by bmoulin          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../headers/cub3d.h"
 
-int		whatstheid(char *line, t_struct *mstruct)
+int	whatstheid(char *line, t_struct *mstruct)
 {
 	int		i;
 	int		j;
@@ -24,7 +24,8 @@ int		whatstheid(char *line, t_struct *mstruct)
 	result = -1;
 	while (line[i] && line[i] == ' ')
 		i++;
-	if (!(str = ft_substr(line, i, 2)))
+	str = ft_substr(line, i, 2);
+	if (!(str))
 		return (-1);
 	while (result != 0 && j <= 7)
 	{
@@ -38,56 +39,69 @@ int		whatstheid(char *line, t_struct *mstruct)
 	return (j);
 }
 
-int		firstpartmap(char *line, t_struct *mstruct, int y)
+int	firstpartmap_orther(char *line, t_struct *mstruct, int y)
+{
+	if (y == 3 && mstruct->pathtoWE == NULL)
+	{
+		mstruct->pathtoWE = checktheid(line, 'W', 'E');
+		return (1);
+	}
+	if (y == 4 && mstruct->pathtoEA == NULL)
+	{
+		mstruct->pathtoEA = checktheid(line, 'E', 'A');
+		return (1);
+	}
+	if (y == 5 && mstruct->pathtoS == NULL)
+	{
+		mstruct->pathtoS = checktheid(line, 'S', ' ');
+		return (1);
+	}
+	return (-1);
+}
+
+int	firstpartmap(char *line, t_struct *mstruct, int y)
 {
 	if (y == 0 && mstruct->Rx == 0 && mstruct->Ry == 0)
 		checkelemR(line, mstruct);
 	if (y == 0 && mstruct->Rx > 0 && mstruct->Ry > 0)
 		return (1);
-	if (y == 1 && mstruct->pathtoNO == NULL
-	&& (mstruct->pathtoNO = checktheid(line, 'N', 'O')))
+	if (y == 1 && mstruct->pathtoNO == NULL)
+	{
+		mstruct->pathtoNO = checktheid(line, 'N', 'O');
 		return (1);
-	if (y == 2 && mstruct->pathtoSO == NULL
-	&& (mstruct->pathtoSO = checktheid(line, 'S', 'O')))
+	}
+	if (y == 2 && mstruct->pathtoSO == NULL)
+	{
+		mstruct->pathtoSO = checktheid(line, 'S', 'O');
 		return (1);
-	if (y == 3 && mstruct->pathtoWE == NULL
-	&& (mstruct->pathtoWE = checktheid(line, 'W', 'E')))
-		return (1);
-	if (y == 4 && mstruct->pathtoEA == NULL
-	&& (mstruct->pathtoEA = checktheid(line, 'E', 'A')))
-		return (1);
-	if (y == 5 && mstruct->pathtoS == NULL
-	&& (mstruct->pathtoS = checktheid(line, 'S', ' ')))
-		return (1);
-	return (-1);
+	}
+	return (firstpartmap_orther(line, mstruct, y));
 }
 
-int		secondpartmap(char *line, t_struct *mstruct, int y)
+int	secondpartmap(char *line, t_struct *mstruct, int y)
 {
 	if (y == 6 && (mstruct->F_B == -1 && mstruct->F_R == -1
-	&& mstruct->F_G == -1))
+			&& mstruct->F_G == -1))
 		checkelemF(line, mstruct);
 	if (y == 6 && (mstruct->F_R >= 0 && mstruct->F_R <= 255)
-	&& (mstruct->F_G >= 0 && mstruct->F_G <= 255)
-	&& (mstruct->F_B >= 0 && mstruct->F_B <= 255))
+		&& (mstruct->F_G >= 0 && mstruct->F_G <= 255)
+		&& (mstruct->F_B >= 0 && mstruct->F_B <= 255))
 		return (1);
 	if (y == 7 && (mstruct->C_B == -1 && mstruct->C_R == -1
-	&& mstruct->C_G == -1))
+			&& mstruct->C_G == -1))
 		checkelemC(line, mstruct);
 	if (y == 7 && (mstruct->C_R >= 0 && mstruct->C_R <= 255)
-	&& (mstruct->C_G >= 0 && mstruct->C_G <= 255)
-	&& (mstruct->C_B >= 0 && mstruct->C_B <= 255))
+		&& (mstruct->C_G >= 0 && mstruct->C_G <= 255)
+		&& (mstruct->C_B >= 0 && mstruct->C_B <= 255))
 		return (1);
 	return (-1);
 }
 
-int		shouldiskip(char *line, t_struct *mstruct, int a)
+int	shouldiskip(char *line, t_struct *mstruct, int a)
 {
 	static int	x = 0;
 	int			y;
 
-	if (a == 1 && (x = 0))
-		return (0);
 	if (ft_strlen(line) > 0)
 		x++;
 	if (x <= 8 && ft_strlen(line) == 0)

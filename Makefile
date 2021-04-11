@@ -13,6 +13,11 @@ SRC =	init/main.c \
 		parsing/structstuff.c \
 		parsing/whatsthemap.c \
 		parsing/skynfloorcolor.c \
+		parsing/spacenplayerpos.c \
+		parsing/libft.c \
+		parsing/ft_substr.c \
+		parsing/listes.c \
+		parsing/getlenmax.c \
 		save/save.c \
 		hook/hook.c \
 		sprites/sprites.c \

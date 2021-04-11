@@ -74,7 +74,7 @@ int	main(int argc, char **argv)
 	init_mlxntxt(&rc);
 	ft_Raycaster(&rc);
 	if (rc.save == 1)
-		save_bmp("save.bmp", &rc);
+		save_bmp("save.bpm", &rc);
 	mlx_put_image_to_window(rc.mlx, rc.win, rc.img, 0, 0);
 	mlx_loop(rc.mlx);
 }

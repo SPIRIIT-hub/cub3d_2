@@ -6,11 +6,28 @@
 /*   By: bmoulin <bmoulin@42lyon.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/13 12:24:38 by efarin            #+#    #+#             */
-/*   Updated: 2021/04/02 08:35:34 by bmoulin          ###   ########lyon.fr   */
+/*   Updated: 2021/04/10 17:52:06 by bmoulin          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../headers/cub3d.h"
+
+void	split_structinit(t_struct *mstruct)
+{
+	mstruct->pathtoNO = NULL;
+	mstruct->pathtoSO = NULL;
+	mstruct->pathtoWE = NULL;
+	mstruct->pathtoEA = NULL;
+	mstruct->pathtoS = NULL;
+	mstruct->args[0] = "R ";
+	mstruct->args[1] = "NO";
+	mstruct->args[2] = "SO";
+	mstruct->args[3] = "WE";
+	mstruct->args[4] = "EA";
+	mstruct->args[5] = "S ";
+	mstruct->args[6] = "F ";
+	mstruct->args[7] = "C ";
+}
 
 void	structinit(t_struct *mstruct)
 {
@@ -28,17 +45,5 @@ void	structinit(t_struct *mstruct)
 	mstruct->C_B = -1;
 	mstruct->C_R = -1;
 	mstruct->C_G = -1;
-	mstruct->pathtoNO = NULL;
-	mstruct->pathtoSO = NULL;
-	mstruct->pathtoWE = NULL;
-	mstruct->pathtoEA = NULL;
-	mstruct->pathtoS = NULL;
-	mstruct->args[0] = "R ";
-	mstruct->args[1] = "NO";
-	mstruct->args[2] = "SO";
-	mstruct->args[3] = "WE";
-	mstruct->args[4] = "EA";
-	mstruct->args[5] = "S ";
-	mstruct->args[6] = "F ";
-	mstruct->args[7] = "C ";
+	split_structinit(mstruct);
 }
