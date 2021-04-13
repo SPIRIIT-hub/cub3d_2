@@ -59,10 +59,22 @@ void	hook_AD(int keycode, t_rc *rc)
 {
 	if (keycode == KEY_D)
 	{
-		rc->planeX -= 0.5;
-		rc->planeY -= 0.5;
+		if (rc->pars->map[(int)(rc->posX + rc->planeX)]
+			[(int)rc->posY] != '1')
+			rc->posX += rc->planeX;
+		if (rc->pars->map[(int)rc->posX]
+			[(int)(rc->posY + rc->planeY)] != '1')
+			rc->posY += rc->planeY;
 		ft_Raycaster(rc);
+		return ;
 	}
+	if (rc->pars->map[(int)(rc->posX - rc->planeX)]
+			[(int)rc->posY] != '1')
+		rc->posX -= rc->planeX;
+	if (rc->pars->map[(int)rc->posX]
+		[(int)(rc->posY - rc->planeY)] != '1')
+		rc->posY -= rc->planeY;
+	ft_Raycaster(rc);
 	return ;
 }
 
@@ -85,7 +97,5 @@ int	key_hook(int keycode, t_rc *rc)
 	{
 		hook_AD(keycode, rc);
 	}
-	if (keycode > 0)
-		printf("keycode : %f %f\n", rc->planeX, rc->planeY);
 	return (0);
 }
