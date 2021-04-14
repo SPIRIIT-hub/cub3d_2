@@ -5,7 +5,7 @@ t_list	*ft_lstnew(void *content)
 {
 	t_list	*liste;
 
-	liste = malloc(sizeof(t_list));
+	liste = wrmalloc(sizeof(t_list));
 	if (!(liste))
 		return (NULL);
 	liste->content = content;
@@ -37,7 +37,7 @@ void	ft_lstclear(t_list **lst, void (*del)(void*))
 	{
 		ok = (*lst)->next;
 		del((*lst)->content);
-		free((*lst));
+		wrfree((*lst));
 		(*lst) = ok;
 	}
 	(*lst) = NULL;
@@ -77,7 +77,7 @@ t_list	*makelst(int fd, t_struct *mstruct)
 		}
 		if (mstruct->i == -1)
 		{
-			free(line);
+			wrfree(line);
 			ft_lstclear(&thelist, free);
 			return (NULL);
 		}

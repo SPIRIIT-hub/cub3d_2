@@ -12,11 +12,11 @@ char	*ft_substr(char const *s, unsigned int start, size_t len)
 	if (!s)
 		return (NULL);
 	if (start >= ft_strlen(s))
-		str = malloc(sizeof(char));
+		str = wrmalloc(sizeof(char));
 	else if (len > (ft_strlen(s) - start))
-		str = malloc((ft_strlen(s) - start + 1) * sizeof(char));
+		str = wrmalloc((ft_strlen(s) - start + 1) * sizeof(char));
 	else
-		str = malloc((len + 1) * sizeof(char));
+		str = wrmalloc((len + 1) * sizeof(char));
 	if (str == NULL)
 		return (NULL);
 	while (i != start && s[i])

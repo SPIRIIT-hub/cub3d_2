@@ -6,7 +6,7 @@
 /*   By: bmoulin <bmoulin@42lyon.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/25 17:01:11 by efarin            #+#    #+#             */
-/*   Updated: 2021/04/10 17:02:46 by bmoulin          ###   ########lyon.fr   */
+/*   Updated: 2021/04/14 16:49:57 by bmoulin          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ static size_t	ft_check(char c, char const *set)
 
 static char	*ft_putzero(char *str, size_t i)
 {
-	str = malloc(1 * sizeof(char));
+	str = wrmalloc(1 * sizeof(char));
 	str[i] = '\0';
 	return (str);
 }
@@ -53,7 +53,7 @@ char	*ft_strtrim(char const *s1, char const *set)
 		l--;
 	if (j == ft_strlen(s1))
 		return (ft_putzero(str, i));
-	str = malloc((l - j + 2) * sizeof(char));
+	str = wrmalloc((l - j + 2) * sizeof(char));
 	if (str == NULL)
 		return (NULL);
 	while (j != (l + 1))

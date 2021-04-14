@@ -3,14 +3,14 @@ NO ./textures/mossy.png
 SO ./textures/purplestone.png
 WE ./textures/redbrick.png
 EA ./textures/greystone.png
-S  ./textures/barrel.png
+S  ./textures/efarin.png
 F 6,120,2
 C 1,141,255
 
-1111111
-1000001
-1000001
-100W001
-1000001
-1000001
-1111111
+11111111111111
+10000000000001
+10000000200001
+100W0020000001
+10000000200001
+10000000000001
+11111111111111

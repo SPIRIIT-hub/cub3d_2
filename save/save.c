@@ -76,6 +76,7 @@ void	save_bmp(const char *filename, t_rc *rc)
 	if (fd < 0)
 	{
 		printf("Error\n");
+		wrdestroy();
 		exit(0);
 	}
 	write(fd, create_bitmap_file_header(file_size), 14);
@@ -83,5 +84,6 @@ void	save_bmp(const char *filename, t_rc *rc)
 	write_img(fd, rc);
 	close(fd);
 	printf("Image generated!!\n");
+	wrdestroy();
 	exit(0);
 }

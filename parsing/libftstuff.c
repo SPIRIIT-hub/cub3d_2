@@ -6,7 +6,7 @@
 /*   By: bmoulin <bmoulin@42lyon.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/16 10:56:29 by efarin            #+#    #+#             */
-/*   Updated: 2021/04/10 19:11:27 by bmoulin          ###   ########lyon.fr   */
+/*   Updated: 2021/04/14 16:51:22 by bmoulin          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,8 +81,8 @@ size_t	ft_cmpt(char const *s, char c)
 char	*ft_free(char **tab, size_t i)
 {
 	while (i-- > 0)
-		free(tab[i]);
-	free(tab);
+		wrfree(tab[i]);
+	wrfree(tab);
 	return (NULL);
 }
 
@@ -96,7 +96,7 @@ char	**ft_mem(char const *s, char c)
 	i = -1;
 	k = 0;
 	j = 0;
-	tab = malloc((ft_cmpt(s, c) + 1) * sizeof(char *));
+	tab = wrmalloc((ft_cmpt(s, c) + 1) * sizeof(char *));
 	if (!(tab))
 		return (NULL);
 	while (s[k] && ++i != ft_cmpt(s, c))

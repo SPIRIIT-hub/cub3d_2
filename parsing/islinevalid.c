@@ -6,7 +6,7 @@
 /*   By: bmoulin <bmoulin@42lyon.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/18 11:21:06 by efarin            #+#    #+#             */
-/*   Updated: 2021/04/10 18:26:23 by bmoulin          ###   ########lyon.fr   */
+/*   Updated: 2021/04/14 16:50:48 by bmoulin          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ int	whatstheid(char *line, t_struct *mstruct)
 		if (result != 0)
 			j++;
 	}
-	free(str);
+	wrfree(str);
 	if (result != 0)
 		return (-1);
 	return (j);

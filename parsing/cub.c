@@ -6,7 +6,7 @@
 /*   By: bmoulin <bmoulin@42lyon.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/10 10:33:03 by efarin            #+#    #+#             */
-/*   Updated: 2021/04/10 19:14:30 by bmoulin          ###   ########lyon.fr   */
+/*   Updated: 2021/04/14 16:49:48 by bmoulin          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,12 +23,12 @@ char	**fromlsttotab(t_list **alst, t_struct *mstruct)
 	i = 0;
 	lst = *alst;
 	mstruct->lenmax = getlenmax(&lst);
-	tab = malloc((ft_lstsize(lst) + 1) * sizeof(char *));
+	tab = wrmalloc((ft_lstsize(lst) + 1) * sizeof(char *));
 	if (!(tab))
 		return (NULL);
 	while (lst != NULL)
 	{
-		tab[i] = malloc((mstruct->lenmax + 1) * sizeof(char));
+		tab[i] = wrmalloc((mstruct->lenmax + 1) * sizeof(char));
 		if (!(tab[i]))
 			return (NULL);
 		ft_bzero(tab[i], mstruct->lenmax + 1);
@@ -89,7 +89,7 @@ t_struct	*ismapvalid(char **arv, int arc)
 	char			**tab;
 	t_struct		*mstruct;
 
-	mstruct = malloc(sizeof(t_struct));
+	mstruct = wrmalloc(sizeof(t_struct));
 	if (!(mstruct))
 		return (NULL);
 	structinit(mstruct);

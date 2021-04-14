@@ -2,6 +2,7 @@
 
 int	ft_close(int keycode, t_rc *rc)
 {
+	wrdestroy();
 	exit(0);
 	return (1);
 }
