@@ -122,6 +122,6 @@ void	ft_Raycaster(t_rc *rc)
 	ft_spritedata(rc);
 	ft_sprite(rc);
 	if (rc->save == 1)
-		save_bmp("save.bpm", rc);
+		save_bmp("save.bmp", rc);
 	mlx_put_image_to_window(rc->mlx, rc->win, rc->img, 0, 0);
 }

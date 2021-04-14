@@ -44,7 +44,7 @@ void	init_value(t_rc *rc)
 	rc->spr.drawEndY = rc->spr.spriteHeight / 2 + rc->pars->Ry / 2;
 	if (rc->spr.drawEndY >= rc->pars->Ry)
 		rc->spr.drawEndY = rc->pars->Ry - 1;
-	rc->spr.spriteWidth = abs((int)(rc->pars->Ry / (rc->spr.transformY)));
+	rc->spr.spriteWidth = abs((int)(rc->pars->Rx / (rc->spr.transformY)));
 	rc->spr.drawStartX = -rc->spr.spriteWidth / 2 + rc->spr.spriteScreenX;
 	if (rc->spr.drawStartX < 0)
 		rc->spr.drawStartX = 0;
